@@ -9,7 +9,7 @@
  */
 
 /**
- * Description of public
+ * Description of external
  *
  * @author aaronwatanabe
  */
@@ -20,7 +20,7 @@ class External extends UC_Controller {
     }
 
     public function index(){
-        echo "o hai world";
+        $this->display("The template is working");
     }
 }
 ?>

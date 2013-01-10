@@ -11,6 +11,8 @@
 /**
  * Description of UC_Controller
  *
+ * All child controllers must have a __construct method and include a security
+ * zone for the 
  * @author aaronwatanabe
  */
 class UC_Controller extends CI_Controller {
@@ -35,7 +37,19 @@ class UC_Controller extends CI_Controller {
             echo "Access not authorized";
             exit;
         }
-       
+    }
+    
+    /**
+     * Displays content within the default template frame. Allows for 
+     * different layouts given the security zone.
+     * @param type $content
+     */
+    
+    public function display($content){
+        
+        $template_data["content"] = $content;
+        
+        $this->load->view("template.php", $template_data);
     }
 }
 

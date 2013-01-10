@@ -38,6 +38,27 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 /*
 |--------------------------------------------------------------------------
+| Security Zones
+|--------------------------------------------------------------------------
+|
+| These define the different security levels. Authentication is done using
+| bitwise operations. Each zone is assigned a number that is a power of two and
+| each user receives a security number that is a bitwise combination of the 
+| zones they are authorized to access. Bitwise AND is then used to check whether
+| a user is authorized to access a particular controller.
+|
+*/
+
+// The element in the sessions array where a user's security level is stored
+define("SECURITY_LEVEL", "security_level");
+
+define('ROOT',          0);
+define('EXTERNAL',      1);
+define('AUTHENTICATED', 2);
+
+
+/*
+|--------------------------------------------------------------------------
 | Custom Constants
 |--------------------------------------------------------------------------
 |

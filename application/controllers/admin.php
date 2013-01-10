@@ -25,7 +25,19 @@ class admin extends UC_Controller {
      * 
      */
     public function index(){
-        $this->display($this->load->view("content/admin/index"));
+        $this->display($this->get_view("content/admin/index"));
+    }
+    
+    public function new_user(){
+        
+        // Load helpers
+        $this->load->helper("form");
+        
+        // Load libraries
+        $this->load->library("form");
+        $this->load->library("table");
+        
+        
     }
 }
 

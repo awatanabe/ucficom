@@ -15,7 +15,14 @@
     <title>FiCom: Web Portal</title>
 </head>
 
-<body>
-<?= $content ?>
+<body class="wrapper">
+    <!-- Header area -->
+    <div id="banner">
+        <?= $banner ?>
+    </div>
+    <br>
+    <div id="content">
+        <?= $content ?>
+    </div>
 </body>
 </html>

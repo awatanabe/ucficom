@@ -20,7 +20,7 @@ class External extends UC_Controller {
     }
 
     public function index(){
-        $this->display($this->load->view("content/external/index", NULL, TRUE));
+        $this->display($this->get_view("content/external/index"));
     }
 }
 ?>

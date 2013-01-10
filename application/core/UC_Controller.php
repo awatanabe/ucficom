@@ -43,6 +43,19 @@ class UC_Controller extends CI_Controller {
     }
     
     /**
+     * Shortcut for loading a view that returns the view as a string
+     * 
+     * @param type $view The path of the view to load
+     * @param array $data Array containing dating to bind to view
+     * @return string
+     */
+    
+    public function get_view($view, array $data = NULL){
+        return $this->load->view($view, $data, TRUE);
+    }
+    
+    
+    /**
      * Displays content within the default template frame. Allows for 
      * different layouts given the security zone.
      * @param type $content
@@ -50,7 +63,22 @@ class UC_Controller extends CI_Controller {
     
     public function display($content){
         
-        $template_data["content"] = $content;
+        // Store content for passing
+        $template_data["content"] = $content;        
+        
+        /* Load the banner */
+        $banner_data = array();
+
+        // Determine the correct link for the home page depending on controller
+        if($this->security_zone == EXTERNAL){
+           $banner_data["home_url"] = site_url("external/index");
+        }
+        else{
+            $banner_data["home_url"] = site_url("main/index");
+        }
+        
+        $template_data["banner"] = 
+            $this->get_view("universal/banner", $banner_data);
         
         $this->load->view("universal/template", $template_data);
     }

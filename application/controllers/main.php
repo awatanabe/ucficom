@@ -21,7 +21,7 @@ class main extends UC_Controller {
     }
     
     public function index(){
-        $this->display($this->load->view("content/main/index"));
+        $this->display($this->get_view("content/main/index"));
     }
     
 }

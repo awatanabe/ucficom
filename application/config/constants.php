@@ -57,6 +57,24 @@ define('EXTERNAL',      1);
 define('AUTHENTICATED', 2);
 define('ADMIN',         4);
 
+/*
+|--------------------------------------------------------------------------
+| Database Titles
+|--------------------------------------------------------------------------
+|
+| These are constants for database usage
+|
+*/
+
+// Constants for Users table
+define("USERS_TABLE",           "users");
+define("USERS_USER_ID",         "user_id");
+define("USERS_EMAIL",           "email");
+define("USERS_PASSWORD",        "password");
+define("USERS_FIRST_NAME",      "first_name");
+define("USERS_LAST_NAME",       "last_name");
+define("USERS_SECURITY_LEVEL", "security_level");
+
 
 /*
 |--------------------------------------------------------------------------

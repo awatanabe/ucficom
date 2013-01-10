@@ -32,15 +32,17 @@ class Authentication {
         $CI =& get_instance();
         $CI->load->library('session');
         
-        // Get the user's authorization level from sessions
+        // Get the user's authorization level. If new sessions, returns FALSE
         $user_authorization = $CI->session->userdata(SECURITY_LEVEL);
 
-        // Checks if user is logged in at all
+        // Checks if user already has sessions
         if($user_authorization){
             // Perform bitwise AND on user and controller security levels
             return $user_authorization & $security_zone;
         }
         else 
+            // Start session and set user's access as public
+            $CI->session->set_userdata(SECURITY_LEVEL, EXTERNAL);
             return FALSE;   
     }
     

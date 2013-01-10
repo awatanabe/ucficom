@@ -28,6 +28,9 @@ class UC_Controller extends CI_Controller {
         // Save the security level of the controller
         $this->security_zone = $security_zone;
         
+        // Load helpers
+        $this->load->helper('url');
+        
         // Load libraries
         $this->load->library('session');
         $this->load->library('authentication');
@@ -49,7 +52,7 @@ class UC_Controller extends CI_Controller {
         
         $template_data["content"] = $content;
         
-        $this->load->view("template", $template_data);
+        $this->load->view("universal/template", $template_data);
     }
 }
 

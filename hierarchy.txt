@@ -1,0 +1,9 @@
+External (Zone 1)
+| - index: Landing page for the site
+
+Main (Zone 2): General controller for the internal site
+| - index: Landing page for internal site
+
+Admin (Zone 4): System admin controller
+| - index: Landing page for admin. Should display a list of users and their access levels
+| - new_user: Allows admin to add new user

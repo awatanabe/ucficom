@@ -17,7 +17,7 @@
 class main extends UC_Controller {
     
     public function __construct() {
-        parent::__construct(AUTHENTICATED);
+        parent::__construct(EXTERNAL);
     }
     
     public function index(){

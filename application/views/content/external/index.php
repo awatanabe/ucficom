@@ -1,3 +1,3 @@
 EXTERNAL HOME PAGE
-
-<!-- <a href="main/index">internal page</a> -->
+<br>
+<a href="<?= site_url("main/index")?>">internal home page</a>

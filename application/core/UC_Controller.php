@@ -49,7 +49,7 @@ class UC_Controller extends CI_Controller {
         
         $template_data["content"] = $content;
         
-        $this->load->view("template.php", $template_data);
+        $this->load->view("template", $template_data);
     }
 }
 

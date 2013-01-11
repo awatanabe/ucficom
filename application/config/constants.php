@@ -56,6 +56,7 @@ define('ROOT',          0);
 define('EXTERNAL',      1);
 define('AUTHENTICATED', 2);
 define('ADMIN',         4);
+define("MANAGE",        8);
 
 /*
 |--------------------------------------------------------------------------

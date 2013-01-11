@@ -37,8 +37,6 @@ class admin extends UC_Controller {
         $this->load->library("form_validation");
         $this->load->library("table");  
         
-        echo "hai";
-        
         // Load input form for new users
         $view_data["new_user_form"] = 
             $this->get_view("content/forms/new_user");

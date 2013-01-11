@@ -52,13 +52,16 @@ class users extends CI_Model {
     }
     
     /**
-     * Gets active users from the database
+     * Gets active users from the database. Will return all columns except 
+     * password
      * 
      * @return Query Object
      */
     
     public function get_active(){
         
+        // Do not display the user's password
+        $this->db->select("user_id, first_name, last_name, email, security_level");
         $results = $this->db->get_where(USERS_TABLE, 
                 array(USERS_SECURITY_LEVEL." !=" => INACTIVE));
         

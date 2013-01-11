@@ -46,13 +46,15 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 | each user receives a security number that is a bitwise combination of the 
 | zones they are authorized to access. Bitwise AND is then used to check whether
 | a user is authorized to access a particular controller.
+| 
+| An inactive user should have her status set to "INACTIVE"
 |
 */
 
 // The element in the sessions array where a user's security level is stored
 define("SECURITY_LEVEL", "security_level");
 
-define('ROOT',          0);
+define('INACTIVE',      0);
 define('EXTERNAL',      1);
 define('AUTHENTICATED', 2);
 define('ADMIN',         4);

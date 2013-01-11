@@ -27,6 +27,16 @@ $this->table->add_row(
             'name'  => USERS_EMAIL,
             'id'    => USERS_EMAIL)));
 $this->table->add_row(
+        form_label("Password:", USERS_PASSWORD),
+        form_input(array(
+            'name'  => USERS_PASSWORD,
+            'id'    => USERS_PASSWORD)));
+$this->table->add_row(
+        array(
+            "data"      => "Please record the password to give to the new user",
+            "colspan"   => 2
+        ));
+$this->table->add_row(
         array(
             "data"      => "Security Levels",
             "colspan"   => 2

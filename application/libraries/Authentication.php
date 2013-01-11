@@ -46,6 +46,46 @@ class Authentication {
             return FALSE;   
     }
     
+    /**
+     * Salts a password.
+     * 
+     * Salts a password to make it more difficult to crack in case of a database
+     * breach.
+     * 
+     * @author Aaron Watanabe
+     * @param string    $password   Password to salt
+     */
+    function salt_password($password){
+        
+        // Ensure that the length of the salt string are set
+        if (defined('SALT_VALUE') == FALSE){
+            exit('SALT_VALUE (int) must be defined in constants.php');         
+        }
+        
+        return substr(sha1($password), 0, SALT_VALUE);
+    }
+    
+        
+    /**
+     * Hashes a password.
+     * 
+     * Hashes a password to increase database security. Includes salt. Uses 
+     * sha1 hashing algorithm.
+     * 
+     * @author Aaron Watanabe
+     * 
+     * @param string $password The password to hash
+     * @return string
+     */
+       
+    function hash_password($password){
+        
+        // Hashes password
+        $hash = sha1($password);
+        
+        // Return salted hash
+        return sha1($this->salt_password($hash).$hash);
+    }    
 }
 
 ?>

@@ -86,6 +86,34 @@ class Authentication {
         // Return salted hash
         return sha1($this->salt_password($hash).$hash);
     }    
+    
+    /**
+     * Returns an array of the security zones a given security level can access
+     * 
+     * @param   int $security_level The security level to analyze
+     * @return  array
+     */
+    
+    function security_to_string($security_level){
+        
+        $results = array();
+        
+        // Get all the security zones
+        $SECURITY_ZONES = unserialize(SECURITY_ZONES);
+
+        // Remove public
+        unset($SECURITY_ZONES["External"]);
+        
+        foreach($SECURITY_ZONES as $zone_name => $security_zone){
+            // Add to result array if there is a match
+            if($security_level & $security_zone){
+                $results[] = $zone_name;
+            }
+        }
+        
+        // Return results
+        return $results;
+    }
 }
 
 ?>

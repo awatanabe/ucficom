@@ -30,6 +30,7 @@ class UC_Controller extends CI_Controller {
         
         // Load helpers
         $this->load->helper('url');
+        $this->load->helper('html'); #Needed for template
         
         // Load libraries
         $this->load->library('session');

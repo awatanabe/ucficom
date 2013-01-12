@@ -35,9 +35,8 @@ class admin extends UC_Controller {
         $this->load->library("table");
         
         // Build table with all of the active users
-        $user_table = $this->get_view("content/admin/index_table", $data)
-        // Get a table of all users
-        $user_table = $this->table->generate($this->users->get_active());
+        $user_table = $this->get_view("content/admin/index_table",
+                array("table_data" => $this->users->get_active()));
         
         $this->display($this->get_view("content/admin/index", 
                 array("users" => $user_table)));
@@ -88,12 +87,15 @@ class admin extends UC_Controller {
             // Try to validate the form
             if($this->form_validation->run() == TRUE){
                 
-                // Create the security level
-                $security_level = 
-                    $this->input->post("admin")     |
-                    $this->input->post("manage")    |
-                    EXTERNAL                        |
-                    AUTHENTICATED;
+                /* Create the security level - all users have basic access */
+                $security_level = EXTERNAL | AUTHENTICATED;
+                // Get the internal security levels
+                $INTERNAL_ZONES = unserialize(INTERNAL_SECURITY_ZONES);
+                
+                foreach($INTERNAL_ZONES as $name => $zone_value){
+                    $security_level = $security_level |
+                        $this->input->post($name);
+                }
                 
                 // Hash the password
                 $hashed_password = $this->authentication->hash_password(

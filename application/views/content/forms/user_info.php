@@ -12,22 +12,30 @@
             form_label("First Name:", USERS_FIRST_NAME),
             form_input(array(
                 "name"  => USERS_FIRST_NAME,
-                "id"    => USERS_FIRST_NAME)));
+                "id"    => USERS_FIRST_NAME,
+                "value" => set_value(USERS_FIRST_NAME, 
+                        $default_values[USERS_FIRST_NAME]))));
     $this->table->add_row(
             form_label("Last Name:", USERS_LAST_NAME),
             form_input(array(
                 "name"  => USERS_LAST_NAME,
-                "id"    => USERS_LAST_NAME)));
+                "id"    => USERS_LAST_NAME,
+                "value" => set_value(USERS_LAST_NAME, 
+                        $default_values[USERS_LAST_NAME]))));
     $this->table->add_row(
             form_label("Email:", USERS_EMAIL),
             form_input(array(
                 'name'  => USERS_EMAIL,
-                'id'    => USERS_EMAIL)));
+                'id'    => USERS_EMAIL,
+                "value" => set_value(USERS_EMAIL, 
+                        $default_values[USERS_EMAIL]))));
     $this->table->add_row(
             form_label("Password:", USERS_PASSWORD),
             form_input(array(
                 'name'  => USERS_PASSWORD,
-                'id'    => USERS_PASSWORD)));
+                'id'    => USERS_PASSWORD,
+                "value" => set_value(USERS_PASSWORD, 
+                        $default_values[USERS_PASSWORD]))));
     $this->table->add_row(
             array(
                 "data"      => "Please record the password to give to the new user",
@@ -49,7 +57,7 @@
                 "name"  => $name,
                 "id"    => $name,
                 "value" => $zone_value,
-                "checked" =>    FALSE)));
+                set_checkbox($name, $zone_value, $default_values[$name]))));
     }
     // Add submit button
     $this->table->add_row(

@@ -8,3 +8,4 @@
         This is the banner
     </div>
 </div>
+<hr>

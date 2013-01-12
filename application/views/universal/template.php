@@ -12,7 +12,7 @@
     <!-- Load jquery library and javascript files
     <script src="/javascript/jquery-1.7.2.min.js"></script>
     <script src="/javascript/loader.js"></script>-->
-    <title>FiCom: Web Portal</title>
+    <title>FiCom Web Portal</title>
 </head>
 
 <body class="wrapper">
@@ -20,9 +20,10 @@
     <div id="banner">
         <?= $banner ?>
     </div>
-    <br>
+    <?= $alert ?>
     <div id="content">
         <?= $content ?>
     </div>
+    <br>    
 </body>
 </html>

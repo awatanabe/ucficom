@@ -67,7 +67,6 @@ class admin extends UC_Controller {
         // Load libraries
         $this->load->library("form_validation");
         $this->load->library("table"); 
-        $this->load->library("authentication");
         
         // Load model for database access
         $this->load->model("users");
@@ -114,16 +113,43 @@ class admin extends UC_Controller {
                         redirect(site_url("admin/index"));
             }
             else{
-                echo "hai";
             }
         }
         
+        // Set default values to empty
+        $form_data["default_values"] = array_merge(array(
+            USERS_FIRST_NAME    => '',
+            USERS_LAST_NAME     => '',
+            USERS_EMAIL         => '',
+            USERS_PASSWORD      => ''),
+            array_map(
+                function ($value) { return FALSE; },
+                unserialize(INTERNAL_SECURITY_ZONES)));
+        
+        // Get list of all security zone names
+        unserialize(INTERNAL_SECURITY_ZONES);
+        
         // Load input form for new users
         $view_data["new_user_form"] = 
-            $this->get_view("content/forms/new_user");
+            $this->get_view("content/forms/user_info", $form_data);
+        
+        // Put any errors in the form into the alert box
+        $this->set_alert(validation_errors());
         
         // Load page view
         $this->display($this->get_view("content/admin/new_user", $view_data));
+    }
+    
+    /**
+     * Allows updating of a user in the database
+     * 
+     * @param type $user_id
+     */
+    
+    public function edit_user($user_id){
+        
+        
+        
     }
 }
 

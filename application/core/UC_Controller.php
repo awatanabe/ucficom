@@ -55,6 +55,17 @@ class UC_Controller extends CI_Controller {
         return $this->load->view($view, $data, TRUE);
     }
     
+    /**
+     * Creates an alert to display on the next time display is called
+     * 
+     * @param string $alert Text of the alert to display
+     */
+    
+    public function set_alert($alert){
+        $this->session->set_userdata(ALERT, $alert);
+        
+        return TRUE;
+    }
     
     /**
      * Displays content within the default template frame. Allows for 
@@ -78,8 +89,17 @@ class UC_Controller extends CI_Controller {
             $banner_data["home_url"] = site_url("main/index");
         }
         
+        // Load actual view
         $template_data["banner"] = 
             $this->get_view("universal/banner", $banner_data);
+        
+        /* Determine alerts to display */
+        $template_data["alert"] = ($this->session->userdata(ALERT) == TRUE) ?
+            $this->get_view("universal/alert", 
+                    array("content" => $this->session->userdata(ALERT))) :
+            '';
+        // Clear old alerts
+        $this->session->unset_userdata(ALERT);
         
         $this->load->view("universal/template", $template_data);
     }

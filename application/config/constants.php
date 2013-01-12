@@ -51,9 +51,6 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 |
 */
 
-// The element in the sessions array where a user's security level is stored
-define("SECURITY_LEVEL", "security_level");
-
 define('INACTIVE',      0);
 define('EXTERNAL',      1);
 define('AUTHENTICATED', 2);
@@ -91,6 +88,19 @@ define("USERS_PASSWORD",        "password");
 define("USERS_FIRST_NAME",      "first_name");
 define("USERS_LAST_NAME",       "last_name");
 define("USERS_SECURITY_LEVEL", "security_level");
+
+/*
+|--------------------------------------------------------------------------
+| Sessions Data
+|--------------------------------------------------------------------------
+|
+| These constants define the names of different pieces of data in sessions
+|
+*/
+
+// The element in the sessions array where a user's security level is stored
+define("SECURITY_LEVEL", "security_level");
+define("ALERT", "alert");
 
 
 /*

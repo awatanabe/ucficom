@@ -34,6 +34,8 @@ class admin extends UC_Controller {
         // Load table library
         $this->load->library("table");
         
+        // Build table with all of the active users
+        $user_table = $this->get_view("content/admin/index_table", $data)
         // Get a table of all users
         $user_table = $this->table->generate($this->users->get_active());
         
@@ -50,7 +52,7 @@ class admin extends UC_Controller {
      */
     public function _unique_email($email){
         
-        if($this->users->get_by_email($email) == FALSE){
+        if($this->users->get_unique(USERS_EMAIL, $email) == FALSE){
             return TRUE;
         }
         else{
@@ -96,9 +98,6 @@ class admin extends UC_Controller {
                 // Hash the password
                 $hashed_password = $this->authentication->hash_password(
                         $this->input->post("password"));
-
-
-              
                 
                 // Put the user in the database
                 $this->users->new_user(

@@ -61,7 +61,6 @@ class users extends CI_Model {
     public function get_active(){
         
         // Do not display the user's password
-        $this->db->select("user_id, first_name, last_name, email, security_level");
         $results = $this->db->get_where(USERS_TABLE, 
                 array(USERS_SECURITY_LEVEL." !=" => INACTIVE));
         
@@ -69,19 +68,21 @@ class users extends CI_Model {
     }   
     
     /**
-     * Selects information for a given user by their email
+     * Selects a single user where column equals value. Will return false if 
+     * the value is not unique
      * 
-     * @param type $email
-     * @return boolean
+     * @param string    $column The column with the unique value to access
+     * @param string    $value  The unique value
+     * @return array
      */
     
-    public function get_by_email($email){
+    public function get_unique($column, $value){
         
         $results = $this->db->get_where(USERS_TABLE,
-                array(USERS_EMAIL => $email));
+                array($column => $value));
         
-        // Check number of results, returning false if there were none
-        if($this->db->count_all_results() == 0){
+        // Check results, returning false if there is no unique match
+        if($this->db->count_all_results() != 1){
             return FALSE;
         }
         else{

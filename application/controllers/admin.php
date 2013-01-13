@@ -106,10 +106,17 @@ class admin extends UC_Controller {
                         $hashed_password,
                         $this->input->post("first_name"),
                         $this->input->post("last_name"),
-                        $security_level
-                        );
-                        
-                        // On successful insertion, redirect to main admin page
+                        $security_level);
+                
+                // Message for successful addition
+                $add_message = "User ".
+                        html_escape($this->input->post("first_name"))." ".
+                        html_escape($this->input->post("last_name"))." ".
+                        "added to system.";
+                
+                // Set success message
+                $this->set_message($add_message, MESSAGE_SUCCESS, "User added");
+                // On successful insertion, redirect to main admin page
                         redirect(site_url("admin/index"));
             }
             else{
@@ -134,7 +141,7 @@ class admin extends UC_Controller {
             $this->get_view("content/forms/user_info", $form_data);
         
         // Put any errors in the form into the alert box
-        $this->set_alert(validation_errors());
+        $this->set_message(validation_errors(), MESSAGE_ALERT, "Error");
         
         // Load page view
         $this->display($this->get_view("content/admin/new_user", $view_data));

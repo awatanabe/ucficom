@@ -20,7 +20,7 @@
     <div id="banner">
         <?= $banner ?>
     </div>
-    <?= $alert ?>
+    <?= $message ?>
     <div id="content">
         <?= $content ?>
     </div>

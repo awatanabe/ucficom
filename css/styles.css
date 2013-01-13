@@ -12,8 +12,7 @@ body{
     min-height: 600px;
 }
 
-
-/* TABLES */
+/** TABLES **/
 
 td, th{
     padding-bottom: 2px;
@@ -26,18 +25,59 @@ th{
     text-align: center;
 }
 
+/** INDIVIDUAL ELEMENTS **/
+hr{
+    /* Bring bottom margin in line with other sides */
+    margin-bottom: 1px;
+}
+
 /** PAGE SECTIONS **/
 
 /* ALERT */
 
-div#alert{
-    background-color:   #D63333;
-    color:              #FFFFFF;
+/* General layout for message box */ 
+div#message{
     
-    border: solid #A30000 3px;
-
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 5px;
-    padding-right: 5px;
+    padding-right: 5px;   
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+    border-width: 3px;
+    border-style: solid;    
+}
+
+/* Alert Title */
+div#message_title{
+    
+    text-align: center;
+    
+    font-variant: small-caps;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+/** Message Styles **/
+
+div.message_normal{
+    color: #000000;
+    
+    border-color: #336699;
+}
+
+div.message_alert{
+    background-color:   #D63333;
+    color:              #FFFFFF;    
+    
+    border-color: #A30000;
+}
+
+div.message_success{
+    background-color: #9BE69B;
+    color: #003300;
+    
+    border-color: #009933;
 }

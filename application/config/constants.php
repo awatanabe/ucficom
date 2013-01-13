@@ -91,6 +91,20 @@ define("USERS_SECURITY_LEVEL", "security_level");
 
 /*
 |--------------------------------------------------------------------------
+| Message Types
+|--------------------------------------------------------------------------
+|
+| Different types of messages
+|
+*/
+
+// The element in the sessions array where a user's security level is stored
+define("MESSAGE_NORMAL",    "message_normal");
+define("MESSAGE_SUCCESS",   "message_success");
+define("MESSAGE_ALERT",     "message_alert");
+
+/*
+|--------------------------------------------------------------------------
 | Sessions Data
 |--------------------------------------------------------------------------
 |
@@ -100,7 +114,7 @@ define("USERS_SECURITY_LEVEL", "security_level");
 
 // The element in the sessions array where a user's security level is stored
 define("SECURITY_LEVEL", "security_level");
-define("ALERT", "alert");
+define("MESSAGE", "message");
 
 
 /*

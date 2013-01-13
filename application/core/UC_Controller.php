@@ -56,15 +56,30 @@ class UC_Controller extends CI_Controller {
     }
     
     /**
-     * Creates an alert to display on the next time display is called
+     * Creates an message to display on the next time display is called. 
+     * Message must contain content in order to be set.
      * 
-     * @param string $alert Text of the alert to display
+     * Returns TRUE if message set; returns FALSE if no content in message and 
+     * thus message not set.
+     * 
+     * @param string $message Text of the message to display
+     * @param string $message_type Type of message to display. 
      */
     
-    public function set_alert($alert){
-        $this->session->set_userdata(ALERT, $alert);
+    public function set_message($message, $message_type = MESSAGE_NORMAL,
+            $title = ''){
         
-        return TRUE;
+        if($message != ''){
+            
+            $this->session->set_userdata(MESSAGE, array(
+                "content" =>    $message,
+                "type" =>       $message_type,
+                "title" =>      $title));
+
+            return TRUE;            
+        }
+        return FALSE;
+        
     }
     
     /**
@@ -94,12 +109,12 @@ class UC_Controller extends CI_Controller {
             $this->get_view("universal/banner", $banner_data);
         
         /* Determine alerts to display */
-        $template_data["alert"] = ($this->session->userdata(ALERT) == TRUE) ?
-            $this->get_view("universal/alert", 
-                    array("content" => $this->session->userdata(ALERT))) :
+        $template_data[MESSAGE] = ($this->session->userdata(MESSAGE) == TRUE) ?
+            $this->get_view("universal/message", 
+                    $this->session->userdata(MESSAGE)) :
             '';
         // Clear old alerts
-        $this->session->unset_userdata(ALERT);
+        $this->session->unset_userdata(MESSAGE);
         
         $this->load->view("universal/template", $template_data);
     }

@@ -67,19 +67,19 @@ class admin extends UC_Controller {
     }
     
     public function new_user(){
-               
-        // Set the form validation rules
-        $this->form_validation->set_rules("email", "Email",
-                "required|valid_email|callback__unique_email");
-        $this->form_validation->set_rules("first_name", "First Name", 
-                "required");
-        $this->form_validation->set_rules("last_name", "Last Name", "required");
-        $this->form_validation->set_rules("password", "Password", "required");        
-        $this->form_validation->set_rules("admin", "Admin", "is_natural");
-        $this->form_validation->set_rules("manage", "Manage", "is_natural");        
-        
+                       
         // Try to create the new user if the form was submitted
         if($this->input->post('submit') == TRUE){
+            
+            // Set the form validation rules
+            $this->form_validation->set_rules("email", "Email",
+                    "required|valid_email|callback__unique_email");
+            $this->form_validation->set_rules("first_name", "First Name", 
+                    "required");
+            $this->form_validation->set_rules("last_name", "Last Name", "required");
+            $this->form_validation->set_rules("password", "Password", "required");        
+            $this->form_validation->set_rules("admin", "Admin", "is_natural");
+            $this->form_validation->set_rules("manage", "Manage", "is_natural");              
             
             // Try to validate the form
             if($this->form_validation->run() == TRUE){
@@ -142,6 +142,10 @@ class admin extends UC_Controller {
         // Load validation helper
         $this->load->helper("validation");
         
+        /* Check whether updates submitted and address */
+        
+        
+        /* Prep the view */
         // Check that the user_id is valid
         if(is_user_id($user_id) == FALSE){
             // Alert user to bad ID and return to index
@@ -182,11 +186,21 @@ class admin extends UC_Controller {
         $form_data["default_values"] = array_merge($user_data, $internal_zones);
         
         // Get form
-        $template_data["edit_form"] = $this->get_view("content/forms/user_info",
+        $template_data["edit_form"] = $this->get_view("content/forms/edit_user",
                 $form_data);
+        // Include user ID in the data
+        $template_data["user_id"]   = $user_data[USERS_USER_ID];
                 
         $this->display($this->get_view("content/admin/edit_user", 
                 $template_data));
+    }
+    
+    public function reset_password($user_id){
+        $this->display("TODO");
+    }
+    
+    public function deactive_user($user_id){
+        $this->display("TODO");
     }
 }
 

@@ -23,4 +23,20 @@
         
         return "<div class='grid-$grid_size'>".nbs()."</div>";
     }
+    
+    /**
+     * Creates a link styled as a button according the the css class button
+     * 
+     * @param string $uri
+     * @param string $title
+     * @param string $class Must include the class that styles the button
+     * @param string $attributes
+     * @return string
+     */
+    function button($uri, $title, $class = 'button', $attributes = ''){
+        return anchor($uri, 
+                $title,
+                "class='$class' $attributes");
+    }
+    
 ?>

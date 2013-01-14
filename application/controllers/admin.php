@@ -123,19 +123,9 @@ class admin extends UC_Controller {
             }
         }
         
-        // Set default values to empty
-        $form_data["default_values"] = array_merge(array(
-            USERS_FIRST_NAME    => '',
-            USERS_LAST_NAME     => '',
-            USERS_EMAIL         => '',
-            USERS_PASSWORD      => ''),
-            array_map(
-                function ($value) { return FALSE; },
-                unserialize(INTERNAL_SECURITY_ZONES)));
-        
         // Load input form for new users
         $view_data["new_user_form"] = 
-            $this->get_view("content/forms/user_info", $form_data);
+            $this->get_view("content/forms/new_user");
         
         // Load page view
         $this->display($this->get_view("content/admin/new_user", $view_data));
@@ -184,7 +174,7 @@ class admin extends UC_Controller {
             // Set retain each zone's value if user is authorizes; else zero
             $internal_zones[$name] = 
                 ($value & $user_data[USERS_SECURITY_LEVEL]) ?
-                $value : 0;
+                TRUE : FALSE;
         }
         
         // Remove security zone from data array and replace with above array

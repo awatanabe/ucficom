@@ -66,8 +66,8 @@ class UC_Controller extends CI_Controller {
      * @param string $message_type Type of message to display. 
      */
     
-    public function set_message($message, $message_type = MESSAGE_NORMAL,
-            $title = ''){
+    public function set_message($title, $message,  
+            $message_type = MESSAGE_NORMAL){
         
         if($message != ''){
             

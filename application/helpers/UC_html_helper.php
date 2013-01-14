@@ -20,10 +20,7 @@
      */
     
     function empty_grid($grid_size){
+        
         return "<div class='grid-$grid_size'>".nbs()."</div>";
     }
-
-
 ?>
-
-

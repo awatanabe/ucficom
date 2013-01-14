@@ -1,6 +1,10 @@
 <?
+
 /* Generate the table with inputs */
 // Eliminate header row
+
+var_dump($default_values);
+var_dump($_POST);
 
     $this->table->set_heading(
             array(
@@ -51,13 +55,16 @@
 
     // Build input for each zone
     foreach($INTERNAL_SECURITY_ZONES as $name => $zone_value){
+        echo "$name $zone_value";
         $this->table->add_row(        
             form_label($name, $name),
             form_checkbox(array(
                 "name"  => $name,
                 "id"    => $name,
                 "value" => $zone_value,
+                "checked" =>
                 set_checkbox($name, $zone_value, $default_values[$name]))));
+        echo set_checkbox($name, $zone_value);
     }
     // Add submit button
     $this->table->add_row(
@@ -68,7 +75,11 @@
 
 ?>
 
+
+
 <?= form_open(site_url("admin/new_user")) ?>
 <?= $this->table->generate()?>
+
+<input type='checkbox' name='Admin' value="4" <?= set_checkbox("Admin", "4") ?>>
 
 <?= form_close() ?>

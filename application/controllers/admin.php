@@ -22,7 +22,14 @@ class admin extends UC_Controller {
         parent::__construct(EXTERNAL);
         
         // Load user model - controller for managing user table
-        $this->load->model("users");           
+        $this->load->model("users");    
+        
+        // Load helpers
+        $this->load->helper("form");
+        
+        // Load libraries
+        $this->load->library("form_validation");
+        $this->load->library("table");         
     }
     
     /**
@@ -60,16 +67,7 @@ class admin extends UC_Controller {
     }
     
     public function new_user(){
-        
-        // Load helpers
-        $this->load->helper("form");
-        
-        // Load libraries
-        $this->load->library("form_validation");
-        $this->load->library("table"); 
-        
-        // Load model for database access
-        $this->load->model("users");
+               
         // Set the form validation rules
         $this->form_validation->set_rules("email", "Email",
                 "required|valid_email|callback__unique_email");
@@ -115,11 +113,13 @@ class admin extends UC_Controller {
                         "added to system.";
                 
                 // Set success message
-                $this->set_message($add_message, MESSAGE_SUCCESS, "User added");
+                $this->set_message("User added", $add_message, MESSAGE_SUCCESS);
                 // On successful insertion, redirect to main admin page
                         redirect(site_url("admin/index"));
             }
             else{
+                // Notify user of errors in the form
+                $this->set_message("Error", validation_errors(), MESSAGE_ALERT);                
             }
         }
         
@@ -133,15 +133,9 @@ class admin extends UC_Controller {
                 function ($value) { return FALSE; },
                 unserialize(INTERNAL_SECURITY_ZONES)));
         
-        // Get list of all security zone names
-        unserialize(INTERNAL_SECURITY_ZONES);
-        
         // Load input form for new users
         $view_data["new_user_form"] = 
             $this->get_view("content/forms/user_info", $form_data);
-        
-        // Put any errors in the form into the alert box
-        $this->set_message(validation_errors(), MESSAGE_ALERT, "Error");
         
         // Load page view
         $this->display($this->get_view("content/admin/new_user", $view_data));
@@ -155,8 +149,54 @@ class admin extends UC_Controller {
     
     public function edit_user($user_id){
         
+        // Load validation helper
+        $this->load->helper("validation");
         
+        // Check that the user_id is valid
+        if(is_user_id($user_id) == FALSE){
+            // Alert user to bad ID and return to index
+            $this->set_message( 
+                    "Invalid User ID",
+                    "Could not edit information for user because of bad user ID",
+                    MESSAGE_ALERT);
+            redirect("admin/index");
+        }
         
+        // Load the user's information from the database
+        $user_data = $this->users->get_unique(USERS_USER_ID, $user_id);
+        
+        if($user_data == FALSE || $user_data[USERS_SECURITY_LEVEL] == INACTIVE){
+            $this->set_message(
+                "Invalid User ID",
+                "User does not exist",
+                MESSAGE_ALERT);
+            redirect("admin/index");
+        }
+        
+        // Remove the password field from the user's data - admin cannot view it
+        $user_data[USERS_PASSWORD] = '';
+        
+        // Get the internal security zones
+        $internal_zones = unserialize(INTERNAL_SECURITY_ZONES);
+        
+        // Develop array for default values
+        foreach($internal_zones as $name => $value){
+            // Set retain each zone's value if user is authorizes; else zero
+            $internal_zones[$name] = 
+                ($value & $user_data[USERS_SECURITY_LEVEL]) ?
+                $value : 0;
+        }
+        
+        // Remove security zone from data array and replace with above array
+        unset($user_data[USERS_SECURITY_LEVEL]);
+        $form_data["default_values"] = array_merge($user_data, $internal_zones);
+        
+        // Get form
+        $template_data["edit_form"] = $this->get_view("content/forms/user_info",
+                $form_data);
+                
+        $this->display($this->get_view("content/admin/edit_user", 
+                $template_data));
     }
 }
 

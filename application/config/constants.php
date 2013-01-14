@@ -58,17 +58,17 @@ define('ADMIN',         4);
 define("MANAGE",        8);
 
 $INTERNAL_SECURITY_ZONES = array(
-        "Admin" => ADMIN,
-        "Manage" => MANAGE);
+        "admin" => ADMIN,
+        "manage" => MANAGE);
 
 define("INTERNAL_SECURITY_ZONES", serialize($INTERNAL_SECURITY_ZONES));
 
 // Define security levels in array
 define("SECURITY_ZONES", serialize(array_merge(
         array(
-            "Inactive" => INACTIVE,
-            "External" => EXTERNAL,
-            "Authenticated" => AUTHENTICATED),
+            "inactive" => INACTIVE,
+            "external" => EXTERNAL,
+            "authenticated" => AUTHENTICATED),
         $INTERNAL_SECURITY_ZONES)));
 
 /*

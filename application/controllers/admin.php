@@ -16,6 +16,8 @@
  */
 class admin extends UC_Controller {
     
+    public $INTERNAL_SECURITY_ZONES;
+    
     public function __construct(){
          
         // Get the estate from the parental unit
@@ -29,7 +31,10 @@ class admin extends UC_Controller {
         
         // Load libraries
         $this->load->library("form_validation");
-        $this->load->library("table");         
+        $this->load->library("table");      
+        
+        // Unserialize internal security zones
+        $this->INTERNAL_SECURITY_ZONES = unserialize(INTERNAL_SECURITY_ZONES);
     }
     
     /**
@@ -77,19 +82,22 @@ class admin extends UC_Controller {
             $this->form_validation->set_rules("first_name", "First Name", 
                     "required");
             $this->form_validation->set_rules("last_name", "Last Name", "required");
-            $this->form_validation->set_rules("password", "Password", "required");        
-            $this->form_validation->set_rules("admin", "Admin", "is_natural");
-            $this->form_validation->set_rules("manage", "Manage", "is_natural");              
+            $this->form_validation->set_rules("password", "Password", "required"); 
+            // Set rules for security zones
+            foreach($this->INTERNAL_SECURITY_ZONES as $name => $zone_value){
+                $this->form_validation->set_rules(
+                        $name, 
+                        ucfirst($name),
+                        "is_natural");
+            }        
             
             // Try to validate the form
             if($this->form_validation->run() == TRUE){
                 
                 /* Create the security level - all users have basic access */
                 $security_level = EXTERNAL | AUTHENTICATED;
-                // Get the internal security levels
-                $INTERNAL_ZONES = unserialize(INTERNAL_SECURITY_ZONES);
                 
-                foreach($INTERNAL_ZONES as $name => $zone_value){
+                foreach($this->INTERNAL_SECURITY_ZONES as $name => $zone_value){
                     $security_level = $security_level |
                         $this->input->post($name);
                 }
@@ -142,10 +150,6 @@ class admin extends UC_Controller {
         // Load validation helper
         $this->load->helper("validation");
         
-        /* Check whether updates submitted and address */
-        
-        
-        /* Prep the view */
         // Check that the user_id is valid
         if(is_user_id($user_id) == FALSE){
             // Alert user to bad ID and return to index
@@ -159,31 +163,95 @@ class admin extends UC_Controller {
         // Load the user's information from the database
         $user_data = $this->users->get_unique(USERS_USER_ID, $user_id);
         
-        if($user_data == FALSE || $user_data[USERS_SECURITY_LEVEL] == INACTIVE){
+        if($user_data == FALSE ||
+           $user_data[USERS_SECURITY_LEVEL] == INACTIVE){
             $this->set_message(
                 "Invalid User ID",
                 "User does not exist",
                 MESSAGE_ALERT);
             redirect("admin/index");
-        }
+        }     
         
         // Remove the password field from the user's data - admin cannot view it
-        $user_data[USERS_PASSWORD] = '';
+        unset($user_data[USERS_PASSWORD]); 
         
-        // Get the internal security zones
-        $internal_zones = unserialize(INTERNAL_SECURITY_ZONES);
+        /* Check whether updates submitted and address */
+        if($this->input->post('submit')){
+            
+            // Set the form validation rules
+            $this->form_validation->set_rules("email", "Email",
+                    "required|valid_email|callback__unique_email");
+            $this->form_validation->set_rules("first_name", "First Name", 
+                    "required");
+            $this->form_validation->set_rules("last_name", "Last Name", "required");
+            
+            // Set rules for security zones
+            foreach($this->INTERNAL_SECURITY_ZONES as $name => $zone_value){
+                $this->form_validation->set_rules(
+                        $name, 
+                        ucfirst($name),
+                        "is_natural");
+            }   
+            
+            // Validate input
+            if($this->form_validation->run() == TRUE){
+                
+                // Build new security level
+                $security_level = EXTERNAL | AUTHENTICATED;
+                foreach($this->INTERNAL_SECURITY_ZONES as $name => $zone_value){
+                    $security_level = $security_level | 
+                        $this->input->post($name);
+                }
+                
+                // Build array of fields that could be updated
+                $update_fields = array(
+                    USERS_FIRST_NAME =>     $this->input->post(USERS_FIRST_NAME),
+                    USERS_LAST_NAME =>      $this->input->post(USERS_LAST_NAME),
+                    USERS_EMAIL =>          $this->input->post(USERS_EMAIL),
+                    USERS_SECURITY_LEVEL => $security_level);                
+                
+                // Attempt to update information in database
+                if($this->users->update_user($user_data[USERS_USER_ID], $update_fields) == TRUE){
+                    // Notify information successfully updated
+                    $this->set_message(
+                            "User Updated", 
+                            "Information for ".html_escape($user_data["first_name"])." ".html_escape($user_data["last_name"]).
+                                " successfully updated.",
+                            MESSAGE_SUCCESS);
+                    redirect("admin/index");
+                }
+                else{
+                    // Notify user unsuccessful update
+                    $this->set_message(
+                            "Update Error", 
+                            "Unable to update the information for ".
+                                html_escape($user_data["first_name"])." ".
+                                html_escape($user_data["last_name"]).".",
+                            MESSAGE_ALERT);                    
+                }
+                
+                
+            }
+            else{
+                // Notify user of errors in the form
+                $this->set_message("Error", validation_errors(), MESSAGE_ALERT);                
+            }                
+            
+        }
         
-        // Develop array for default values
-        foreach($internal_zones as $name => $value){
+        
+        /* Prep the view */
+        // Transform security level into array of values of each level
+        foreach($this->INTERNAL_SECURITY_ZONES as $name => $value){
             // Set retain each zone's value if user is authorizes; else zero
             $internal_zones[$name] = 
                 ($value & $user_data[USERS_SECURITY_LEVEL]) ?
                 TRUE : FALSE;
-        }
-        
+        } 
+             
         // Remove security zone from data array and replace with above array
         unset($user_data[USERS_SECURITY_LEVEL]);
-        $form_data["default_values"] = array_merge($user_data, $internal_zones);
+        $form_data["default_values"] = array_merge($user_data, $internal_zones); 
         
         // Get form
         $template_data["edit_form"] = $this->get_view("content/forms/edit_user",

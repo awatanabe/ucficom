@@ -16,21 +16,21 @@
                 "name"  => USERS_FIRST_NAME,
                 "id"    => USERS_FIRST_NAME,
                 "value" => set_value(USERS_FIRST_NAME, 
-                        $default_values[USERS_FIRST_NAME]))));
+                html_escape($default_values[USERS_FIRST_NAME])))));
     $this->table->add_row(
             form_label("Last Name:", USERS_LAST_NAME),
             form_input(array(
                 "name"  => USERS_LAST_NAME,
                 "id"    => USERS_LAST_NAME,
                 "value" => set_value(USERS_LAST_NAME, 
-                        $default_values[USERS_LAST_NAME]))));
+                html_escape($default_values[USERS_LAST_NAME])))));
     $this->table->add_row(
             form_label("Email:", USERS_EMAIL),
             form_input(array(
                 'name'  => USERS_EMAIL,
                 'id'    => USERS_EMAIL,
                 "value" => set_value(USERS_EMAIL, 
-                        $default_values[USERS_EMAIL]))));
+                html_escape($default_values[USERS_EMAIL])))));
     $this->table->add_row(
             "Password:",
              anchor("admin/reset_password/".$default_values["user_id"], 
@@ -40,13 +40,11 @@
                 "data"      => "Security Levels",
                 "colspan"   => 2
             ));
-    // Get the different internal security levels
-    $INTERNAL_SECURITY_ZONES = unserialize(INTERNAL_SECURITY_ZONES);
 
     // Build input for each zone
-    foreach($INTERNAL_SECURITY_ZONES as $name => $zone_value){
+    foreach($this->INTERNAL_SECURITY_ZONES as $name => $zone_value){
         $this->table->add_row(        
-            form_label($name, $name),
+            form_label(ucfirst("$name:"), $name),
             form_checkbox(
                     $name,
                     $zone_value, 

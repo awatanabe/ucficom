@@ -52,6 +52,27 @@ class users extends CI_Model {
     }
     
     /**
+     * Updates the user given by $user_id. Will replace each column specified in $fields with the new value
+     * 
+     * @param type $user_id
+     * @param array $fields Array of fields to update where the key is the column and its value is the new value
+     */
+    
+    public function update_user($user_id, array $fields){
+        
+        // Check that some fields are not being updated
+        if(array_key_exists(USERS_USER_ID, $fields) == TRUE ||
+                array_key_exists(USERS_PASSWORD, $fields) == TRUE){
+            return FALSE;
+        }
+        
+        $this->db->where(USERS_USER_ID, $user_id);
+        $this->db->update(USERS_TABLE, $fields);
+        
+        return TRUE;
+    }
+    
+    /**
      * Gets active users from the database. Will return all columns except 
      * password
      * 

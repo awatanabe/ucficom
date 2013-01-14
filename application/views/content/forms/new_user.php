@@ -7,33 +7,31 @@
     $this->table->set_heading(
             array(
                 "colspan"   =>  2,
-                "data"      => ''
-            )
-            ); 
+                "data"      => '')); 
     $this->table->add_row(
             form_label("First Name:", USERS_FIRST_NAME),
             form_input(array(
                 "name"  => USERS_FIRST_NAME,
                 "id"    => USERS_FIRST_NAME,
-                "value" => set_value(USERS_FIRST_NAME))));
+                "value" => html_escape(set_value(USERS_FIRST_NAME)))));
     $this->table->add_row(
             form_label("Last Name:", USERS_LAST_NAME),
             form_input(array(
                 "name"  => USERS_LAST_NAME,
                 "id"    => USERS_LAST_NAME,
-                "value" => set_value(USERS_LAST_NAME))));
+                "value" => html_escape(set_value(USERS_LAST_NAME)))));
     $this->table->add_row(
             form_label("Email:", USERS_EMAIL),
             form_input(array(
                 'name'  => USERS_EMAIL,
                 'id'    => USERS_EMAIL,
-                "value" => set_value(USERS_EMAIL))));
+                "value" => html_escape(set_value(USERS_EMAIL)))));
     $this->table->add_row(
             form_label("Password:", USERS_PASSWORD),
             form_input(array(
                 'name'  => USERS_PASSWORD,
                 'id'    => USERS_PASSWORD,
-                "value" => set_value(USERS_PASSWORD))));
+                "value" => html_escape(set_value(USERS_PASSWORD)))));
     $this->table->add_row(
             array(
                 "data"      => "Please record the password to give to the new user",
@@ -50,7 +48,7 @@
     // Build input for each zone
     foreach($INTERNAL_SECURITY_ZONES as $name => $zone_value){
         $this->table->add_row(        
-            form_label($name, $name),
+            form_label(ucfirst("$name:"), $name),
             form_checkbox(
                     $name,
                     $zone_value, 

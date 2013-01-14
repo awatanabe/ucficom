@@ -1,0 +1,7 @@
+STYLE GUIDE FOR FICOM WEB PORTAL
+
+/** General **/
+- All direct output from users should be escaped using
+
+/* Forms */
+- All submit buttons should have the name "submit"

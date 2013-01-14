@@ -3,9 +3,6 @@
 /* Generate the table with inputs */
 // Eliminate header row
 
-var_dump($default_values);
-var_dump($_POST);
-
     $this->table->set_heading(
             array(
                 "colspan"   =>  2,
@@ -58,13 +55,11 @@ var_dump($_POST);
         echo "$name $zone_value";
         $this->table->add_row(        
             form_label($name, $name),
-            form_checkbox(array(
-                "name"  => $name,
-                "id"    => $name,
-                "value" => $zone_value,
-                "checked" =>
-                set_checkbox($name, $zone_value, $default_values[$name]))));
-        echo set_checkbox($name, $zone_value);
+            form_checkbox(
+                    $name,
+                    $zone_value, 
+                    set_checkbox($name, $zone_value, $default_values[$name]),
+                    "id='$name'"));
     }
     // Add submit button
     $this->table->add_row(
@@ -80,6 +75,6 @@ var_dump($_POST);
 <?= form_open(site_url("admin/new_user")) ?>
 <?= $this->table->generate()?>
 
-<input type='checkbox' name='Admin' value="4" <?= set_checkbox("Admin", "4") ?>>
+<input type='checkbox' name='admin' value="4" checked="FALSE">
 
 <?= form_close() ?>

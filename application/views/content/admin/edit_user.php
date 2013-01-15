@@ -4,4 +4,4 @@ Edit User
 <br>
 <?= $edit_form ?>
 <br>
-<?= button("admin/delete_user/$user_id", "Delete User");
+<?= button("admin/deactivate_user/$user_id", "Delete User");

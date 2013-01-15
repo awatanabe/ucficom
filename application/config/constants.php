@@ -116,6 +116,18 @@ define("MESSAGE_ALERT",     "message_alert");
 define("SECURITY_LEVEL", "security_level");
 define("MESSAGE", "message");
 
+/*
+|--------------------------------------------------------------------------
+| Form Constants
+|--------------------------------------------------------------------------
+|
+| Constants for use with forms
+|
+*/
+
+// Value for password_helper password salting
+
+define('SUBMIT_NAME', "submit");
 
 /*
 |--------------------------------------------------------------------------

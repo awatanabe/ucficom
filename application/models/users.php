@@ -61,13 +61,23 @@ class users extends CI_Model {
     public function update_user($user_id, array $fields){
         
         // Check that some fields are not being updated
-        if(array_key_exists(USERS_USER_ID, $fields) == TRUE ||
-                array_key_exists(USERS_PASSWORD, $fields) == TRUE){
+        if(array_key_exists(USERS_USER_ID, $fields) == TRUE){
             return FALSE;
         }
         
         $this->db->where(USERS_USER_ID, $user_id);
         $this->db->update(USERS_TABLE, $fields);
+        
+        return TRUE;
+    }
+    
+    public function deactivate_user($user_id){
+        
+        // Deactivate by setting the security level to inactive
+        $this->db->where(USERS_USER_ID, $user_id);
+        $this->db->update(USERS_TABLE, array(
+            USERS_SECURITY_LEVEL => INACTIVE
+        ));
         
         return TRUE;
     }

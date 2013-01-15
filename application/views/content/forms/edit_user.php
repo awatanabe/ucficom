@@ -2,14 +2,10 @@
 
 /* Generate the table with inputs */
 // Eliminate header row
-
-
     $this->table->set_heading(
             array(
                 "colspan"   =>  2,
-                "data"      => ''
-            )
-            ); 
+                "data"      => '')); 
     $this->table->add_row(
             form_label("First Name:", USERS_FIRST_NAME),
             form_input(array(

@@ -14,17 +14,38 @@ body{
 
 /** Links **/
 
-  .button {
-    font: bold 11px Arial;
+/* Input buttons */
+input[type=submit], .button
+{
+    /* Font - 14px */
+    font-size: 1em;
+    color: #000000;
+    line-height: normal;
+    
+    /* Padding - 4px vertical, 6px horizontal*/
+    padding-top: .25em;
+    padding-bottom: .25em;
+    padding-right: .375em;
+    padding-left: .375em;
+    
+    /* Background color */
+    background: #E0E0E0;
+	
+    /* Border */
+    border-color: #444;
+    border-style: solid;
+    border-width: 1px;
+}
+
+input[type=submit]:hover, .button:hover
+{
+    background: #FFFFFF;
+    
     text-decoration: none;
-    background-color: #EEEEEE;
-    color: #333333;
-    padding: 2px 6px 2px 6px;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #CCCCCC;
-   }
+    
+    /* Cursor */
+    cursor: pointer;
+}
 
 /** TABLES **/
 

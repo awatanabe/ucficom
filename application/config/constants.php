@@ -1,5 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/****** DEVELOPMENT ******/
+/* Set this to true when in development to eliminate login
+ * 
+ */
+define("DEVELOPMENT", TRUE);
+
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

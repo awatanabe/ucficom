@@ -23,7 +23,7 @@
     <div id="navigation">
          <?= $navigation ?>
     </div>
-    <?= $message ?>
+    <?= $message ?>    
     <div id="content">
         <?= $content ?>
     </div>

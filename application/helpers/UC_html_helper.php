@@ -33,10 +33,10 @@
      * @param string $attributes
      * @return string
      */
-    function button($uri, $title, $class = 'button', $attributes = ''){
+    function button($uri, $title, $color = 'normal_button', $attributes = ''){
         return anchor($uri, 
                 $title,
-                "class='$class' $attributes");
+                "class='button $color' $attributes");
     }
     
 ?>

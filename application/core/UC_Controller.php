@@ -26,7 +26,9 @@ class UC_Controller extends CI_Controller {
         parent::__construct();        
         
         // Save the security level of the controller
-        $this->security_zone = $security_zone;
+        $this->security_zone = (DEVELOPMENT == TRUE) ?
+                EXTERNAL :
+                $security_zone;
         
         // Load helpers
         $this->load->helper('url');

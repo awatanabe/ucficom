@@ -21,7 +21,7 @@ class admin extends UC_Controller {
     public function __construct(){
          
         // Get the estate from the parental unit
-        parent::__construct(EXTERNAL);
+        parent::__construct(ADMIN);
         
         // Load user model - controller for managing user table
         $this->load->model("users");    

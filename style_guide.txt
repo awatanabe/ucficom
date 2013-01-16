@@ -9,8 +9,8 @@ only 920px wide to account for padding.
 The minimum height of content <div> is 400px 
 
 /** Headings **/
-H1 - Used once per page. Major header
-H2 - Define the major sections of the page
+H1 - Use sparingly for major pages.
+H2 - Define the major sections of the page. Should be default for page title.
 H3 - Define the subsection of a given section.
 
 

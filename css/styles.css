@@ -89,14 +89,14 @@ input[type=submit]:hover, a.button:hover
 }
 
 input[type=submit], a.normal_button{
-    color: #000000;
+    color: #FFFFFF;
     /* Background color */
-    background: #E0E0E0;        
+    background: #115252;/*#E0E0E0; */       
 }
 
 input[type=submit]:hover, a.normal_button:hover{
-    background: #F0F0F0;  
-    color: #000000;    
+    background: #45A8A8;/*#F0F0F0;*/  
+    color: #FFFFFF;    
 }
 
 input[type=submit].red_button, a.red_button{
@@ -251,7 +251,7 @@ div.message_alert{
 }
 
 div.message_success{
-    background-color: #9BE69B;
+    background-color: #5FA8A8;/*#9BE69B;*/
     color: #000000;
     
     border-color: #9BE69B;

@@ -1,16 +1,50 @@
 /* Overarching style sheet for all pages */
 
+/********** COLOR GUIDE *******************************************************/
+
+/* Color  Pallet */
+/*
+    Primary Crimson: #881D1D 
+    | - Background, page elements (hr, tables, etc).
+    Secondary Crimson: #580909
+    | - Headers. Important text (highlight class).
+    Utility Grey: #E0E0E0
+    Utility Blue: #115252
+    Off white: #F0F0F0
+    | - Banner background
+
+    Black: #000000
+    White: #FFFFFF
+*/
+
+
+
+
 /** GENERAL APPEARANCE **/
 html{
     background-color: #881d1d;
 }
 
 body{
-    background-color: #FFFFFF;
+    background-color: #881D1D;
     color: #000000;
     
     min-height: 600px;
+    
+    /* Set vertical margins */
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+
+/** HEADERS **/
+h1, h2, h3, h4, h5, h6{
+    color: #580909;
+    padding: 0;
+    margin: 0;
+    margin-bottom: .5rem;
+}
+
+
 
 /** Links **/
 
@@ -66,9 +100,55 @@ hr{
     margin-bottom: 1px;
 }
 
-/** PAGE SECTIONS **/
+/** TEXT STYLING **/
+.highlight{
+    color: #580909;
+}
 
-/* ALERT */
+/*** PAGE SECTIONS ***/
+
+/** BANNER **/
+
+div#banner{
+    
+    /* Top margin to put some space from the top of screen */
+    margin-top: 10px;
+    
+    /* Set padding */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    height: 60px;    
+    
+    /* Bottom border to define it from content */
+    border-bottom: solid #881d1d 1px;
+    
+    background: #F0F0F0;
+    
+}
+
+div#logo{ 
+    /* Center everything vertically and horizontally*/
+    line-height: 60px; 
+    text-align: center;   
+}
+
+div#masthead{
+    /* This will assume only one line in the banner */
+    line-height: 60px; 
+    font-size: 2em;
+    
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+div#access{
+    /* Center everything vertically and horizontally*/
+    line-height: 60px; 
+    text-align: center;    
+}
+
+
+/** ALERT **/
 
 /* General layout for message box */ 
 div#message{
@@ -115,4 +195,43 @@ div.message_success{
     color: #003300;
     
     border-color: #009933;
+}
+
+/*** Navigation bar ***/
+div#navigation{
+    background: #580909;
+    /* White text */
+    color: #FFFFFF;
+    height: 30px;
+    line-height: 30px;
+}
+
+div#navigation_bar{
+    
+    /* This is necessary so the menu is inline with content text */    
+    padding-left: 10px;
+}
+
+ul#navigation{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+ul#navigation > li{
+    display: inline;
+    
+}
+
+/*** Content ***/
+div#content{
+    /* White background */
+    background-color: #FFFFFF;
+    /* Black text */
+    color: #000000;
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    min-height: 400px;
 }

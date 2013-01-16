@@ -146,6 +146,9 @@ class UC_Controller extends CI_Controller {
         // Load actual view
         $template_data["banner"] = 
             $this->get_view("universal/banner", $banner_data);
+
+        /* Load navigation bar */
+        $template_data["navigation"] = $this->get_view("universal/navigation");
         
         /* Determine alerts to display */
         $template_data[MESSAGE] = ($this->session->userdata(MESSAGE) == TRUE) ?

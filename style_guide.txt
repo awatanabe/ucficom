@@ -1,5 +1,19 @@
 STYLE GUIDE FOR FICOM WEB PORTAL
 
+/** Page Layout **/
+// Width
+The body is set to be 940px wide. However, the canvas for actual views should be
+only 920px wide to account for padding.
+
+// Content
+The minimum height of content <div> is 400px 
+
+/** Headings **/
+H1 - Used once per page. Major header
+H2 - Define the major sections of the page
+H3 - Define the subsection of a given section.
+
+
 /** General **/
 - All direct output from users should be escaped using
 

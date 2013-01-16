@@ -20,6 +20,9 @@
     <div id="banner">
         <?= $banner ?>
     </div>
+    <div id="navigation">
+         <?= $navigation ?>
+    </div>
     <?= $message ?>
     <div id="content">
         <?= $content ?>

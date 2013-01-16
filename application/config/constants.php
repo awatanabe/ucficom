@@ -4,7 +4,7 @@
 /* Set this to true when in development to eliminate login
  * 
  */
-define("DEVELOPMENT", TRUE);
+define("DEVELOPMENT", FALSE);
 
 
 /*
@@ -124,6 +124,7 @@ define("INTERNAL_HOME", "main/index");
 define("EXTERNAL_HOME", "external/index");
 define("LOGIN",         "external/login");
 define("LOGOUT",        "main/logout");
+define("ADMIN_HOME",    "admin/index");
 
 /*
 |--------------------------------------------------------------------------

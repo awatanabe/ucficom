@@ -1,7 +1,7 @@
 <div class="grids">
     <div class="grid-2" id="logo">
         <a href="<?= $home_url?>">
-            Home
+            Logo
         </a>
     </div>
     <div class="grid-12 highlight" id="masthead">

@@ -135,14 +135,15 @@ class UC_Controller extends CI_Controller {
         $banner_data = array();
 
         // Determine the correct link for the home page depending on controller
-        if($this->security_zone == EXTERNAL){
-           $banner_data["home_url"] = site_url(EXTERNAL_HOME);
-           $banner_data["action"]   = button(site_url(LOGIN), "Login");
-        }
-        else{
+        if($this->authentication->is_logged_in() == TRUE){
             $banner_data["home_url"] = site_url(INTERNAL_HOME);
             // This is log out rather than "logout" for a reason
             $banner_data["action"]   = $this->get_view("content/forms/logout");
+        }
+        else{
+            // Display public side baner
+            $banner_data["home_url"] = site_url(EXTERNAL_HOME);
+            $banner_data["action"]   = button(site_url(LOGIN), "Login");
         }
         
         // Load actual view

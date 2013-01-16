@@ -8,20 +8,28 @@
     | - Primary color scheme base
     | - Background, page elements (hr, tables, etc).
     Secondary Crimson: #580909
-    | - Headers. Important text (highlight class).
-    Utility Grey: #E0E0E0
+    | - Headers.
+    | - Navigation bar background.
     Utility Blue: #115252
-    Off white: #F0F0F0
+    | - Link and button primary color
+    Secondary Blue: #45A8A8;
+    | - Link and button hover
+    Dark Critical: #662A2A
+    | - "Red" buttons
+    | - Important text (highlight class).
+    Light Critical: #C35050;
+    | - "Red" button hover
+    | - Alert message background
+    Utility Grey: #E0E0E0
     | - Banner background
-
+    
     Black: #000000
     White: #FFFFFF
 */
 
-
-
-
-/** GENERAL APPEARANCE **/
+/*
+ **** GENERAL APPEARANCE *******************************************************
+ */
 html{
     background-color: #881d1d;
     
@@ -39,7 +47,7 @@ body{
     margin-bottom: 10px;
 }
 
-/** HEADERS **/
+/*** HEADERS ******************************************************************/
 h1, h2, h3, h4, h5, h6{
     color: #580909;
     padding: 0;
@@ -49,9 +57,7 @@ h1, h2, h3, h4, h5, h6{
     text-align: center;
 }
 
-
-
-/** Links **/
+/*** LINKS ********************************************************************/
 
 a, a:visited{
     color: #115252;
@@ -62,7 +68,10 @@ a:hover{
     text-decoration: none;
 }
 
-/* Input buttons */
+/*** BUTTONS ******************************************************************/
+
+/** Button Layout **/
+
 input[type=submit], a.button{
     /* Font - 14px */
     font-size: 1em;
@@ -88,6 +97,8 @@ input[type=submit]:hover, a.button:hover
     cursor: pointer;
 }
 
+/** Coloration **/
+/* Normal Buttons */
 input[type=submit], a.normal_button{
     color: #FFFFFF;
     /* Background color */
@@ -99,17 +110,18 @@ input[type=submit]:hover, a.normal_button:hover{
     color: #FFFFFF;    
 }
 
+/* Red or Critical Buttons */
 input[type=submit].red_button, a.red_button{
-    background-color: #8B1111;
+    background-color: #662A2A;/*#8B1111;*/
     color: #FFFFFF;
 }
 
 input[type=submit].red_button:hover, a.red_button:hover{
-    background-color: #D63333;
+    background-color: #C35050;/*#D63333;*/
     color: #FFFFFF;
 }
 
-/** TABLES **/
+/*** TABLES *******************************************************************/
 
 td, th{
     padding-bottom: 2px;
@@ -122,18 +134,37 @@ th{
     text-align: center;
 }
 
+/*** TEXT STYLING *************************************************************/
+
+/** Text Coloration **/
+
+.highlight{
+    color: #662A2A;
+}
+
+/** Text Alignment **/
+.left_align{
+   text-align: left;
+}
+
+.center{
+    text-align: center;
+}
+
+.right_align{
+    text-align: right;
+}
 /** INDIVIDUAL ELEMENTS **/
 hr{
     /* Bring bottom margin in line with other sides */
     margin-bottom: 1px;
 }
 
-/** TEXT STYLING **/
-.highlight{
-    color: #580909;
-}
 
-/*** PAGE SECTIONS ***/
+
+/*
+ **** PAGE SECTIONS ************************************************************
+ */
 
 /** BANNER **/
 
@@ -219,10 +250,8 @@ ul#navigation_bar > li:hover{
 /* General layout for message box */ 
 div#message{ 
     
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 5px;
-    padding-right: 5px;   
+    padding-top: 5px;
+    padding-bottom: 5px;
      
 }
 
@@ -244,7 +273,7 @@ div.message_normal{
 }
 
 div.message_alert{
-    background-color:   #D63333;
+    background-color:   #C35050;
     color:              #FFFFFF;    
     
     border: #D63333;

@@ -41,6 +41,17 @@ class External extends UC_Controller {
         $this->load->library("table_form");
         $this->load->library("authentication");
         
+        // Check if the user is already logged in and return to previous if so
+        if($this->authentication->is_logged_in() == TRUE){
+            
+            // Set message informing no re-log in
+            $this->set_message("Already Logged In", 
+                    "You are already logged in. If you need to log in as a different user, please log out first.");
+            
+            // Redirect to previous page
+            redirect($this->get_last());
+        }
+        
          // Attempt to log user in if data entered
         if($this->input->post(SUBMIT_NAME) == TRUE){
             

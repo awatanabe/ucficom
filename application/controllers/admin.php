@@ -32,7 +32,8 @@ class admin extends UC_Controller {
         
         // Load libraries
         $this->load->library("form_validation");
-        $this->load->library("table");      
+        $this->load->library("table");  
+        $this->load->library("table_form");
         
         // Unserialize internal security zones
         $this->INTERNAL_SECURITY_ZONES = unserialize(INTERNAL_SECURITY_ZONES);

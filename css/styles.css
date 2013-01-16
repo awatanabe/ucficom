@@ -99,6 +99,12 @@ input[type=submit]:hover, a.button:hover
     cursor: pointer;
 }
 
+input[type=submit]:active, a.button:active{
+    /* Give clicked links a depressed effect. */
+    position:relative;
+    top:1px;
+}
+
 /** Coloration **/
 
 /* Standard Buttons - Grey */

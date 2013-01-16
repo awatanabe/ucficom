@@ -138,7 +138,7 @@ class UC_Controller extends CI_Controller {
         if($this->authentication->is_logged_in() == TRUE){
             $banner_data["home_url"] = site_url(INTERNAL_HOME);
             // This is log out rather than "logout" for a reason
-            $banner_data["action"]   = $this->get_view("content/forms/logout");
+            $banner_data["action"]   = button(LOGOUT, "Log Out", "normal_button", TRUE);
         }
         else{
             // Display public side baner

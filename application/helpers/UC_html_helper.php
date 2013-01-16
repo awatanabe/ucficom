@@ -27,16 +27,23 @@
     /**
      * Creates a link styled as a button according the the css class button
      * 
-     * @param string $uri
-     * @param string $title
-     * @param string $class Must include the class that styles the button
+     * @param string $uri Page to link to
+     * @param string $title Text to display in button.
+     * @param string $color Color scheme for the button. Include other classes here.
+     * @param boolean $as_form If true, creates button using a form wrapper, rather than simply styling an anchor link as button() does. This will submit $title (also the button text) through post in the SUBMIT_NAME field. This should only be used when that verification method is needed - for example, logout. 
      * @param string $attributes
      * @return string
      */
-    function button($uri, $title, $color = 'normal_button', $attributes = ''){
-        return anchor($uri, 
-                $title,
-                "class='button $color' $attributes");
+    function button($uri, $title,
+            $color_class = 'normal_button', $as_form = FALSE, $extra = ''){
+        
+        if($as_form == TRUE){
+            // Return as a form
+            return form_open($uri).
+                   form_submit(SUBMIT_NAME, $title, "class='$color_class' $extra").
+                   form_close(); 
+        }else{
+            return anchor($uri, $title, "class='button $color_class' $extra");
+        }
     }
-    
 ?>

@@ -5,6 +5,7 @@
 /* Color  Pallet */
 /*
     Primary Crimson: #881D1D 
+    | - Primary color scheme base
     | - Background, page elements (hr, tables, etc).
     Secondary Crimson: #580909
     | - Headers. Important text (highlight class).
@@ -47,6 +48,15 @@ h1, h2, h3, h4, h5, h6{
 
 
 /** Links **/
+
+a, a:visited{
+    color: #115252;
+}
+
+a:hover{
+    color: #45A8A8;
+    text-decoration: none;
+}
 
 /* Input buttons */
 input[type=submit], .button
@@ -119,9 +129,6 @@ div#banner{
     padding-bottom: 10px;
     
     height: 60px;    
-    
-    /* Bottom border to define it from content */
-    border-bottom: solid #881d1d 1px;
     
     background: #F0F0F0;
     
@@ -202,8 +209,8 @@ div#navigation{
     background: #580909;
     /* White text */
     color: #FFFFFF;
-    height: 30px;
-    line-height: 30px;
+    font-size: 1.25em;
+    height: 100%;
 }
 
 div#navigation_bar{
@@ -219,8 +226,20 @@ ul#navigation{
 }
 
 ul#navigation > li{
-    display: inline;
-    
+    display: list_item;
+    float: left;
+    border: solid #881D1D 1px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+ul#navigation > li > a{
+    color: #FFFFFF;
+}
+
+ul#navigation > li:hover{
+    background-color: #881D1D;
+    color: #FFFFFF;
 }
 
 /*** Content ***/
@@ -230,8 +249,7 @@ div#content{
     /* Black text */
     color: #000000;
     
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
     
     min-height: 400px;
 }

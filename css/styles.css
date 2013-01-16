@@ -20,8 +20,10 @@
     Light Critical: #C35050;
     | - "Red" button hover
     | - Alert message background
-    Utility Grey: #E0E0E0
-    | - Banner background
+    Primary Grey: #E0E0E0
+    | - Normal button hover
+    Secondary Grey: #F0F0F0
+    | - Button color. Banner background.
     
     Black: #000000
     White: #FFFFFF
@@ -98,25 +100,43 @@ input[type=submit]:hover, a.button:hover
 }
 
 /** Coloration **/
-/* Normal Buttons */
-input[type=submit], a.normal_button{
+
+/* Standard Buttons - Grey */
+/* Standard for regular buttons */
+input[type=submit].normal_button, a.normal_button{
+    /* Background color */
+    background: #D0D0D0;  
+    /* Font color */
+    color: #000000;  
+}
+
+input[type=submit].normal_button:hover, a.normal_button:hover{
+    /* Background color */
+    background: #F0F0F0;
+    /* Font color */
+    color: #000000;    
+}
+
+/* Action Buttons - Blue */
+/*Standard for form submits */
+input[type=submit], a.action_button{
     color: #FFFFFF;
     /* Background color */
     background: #115252;/*#E0E0E0; */       
 }
 
-input[type=submit]:hover, a.normal_button:hover{
+input[type=submit]:hover, a.action_button:hover{
     background: #45A8A8;/*#F0F0F0;*/  
     color: #FFFFFF;    
 }
+/* Critical Button - Red */
 
-/* Red or Critical Buttons */
-input[type=submit].red_button, a.red_button{
+input[type=submit].critical_button, a.critical_button{
     background-color: #662A2A;/*#8B1111;*/
     color: #FFFFFF;
 }
 
-input[type=submit].red_button:hover, a.red_button:hover{
+input[type=submit].critical_button:hover, a.critical_button:hover{
     background-color: #C35050;/*#D63333;*/
     color: #FFFFFF;
 }
@@ -166,7 +186,7 @@ hr{
  **** PAGE SECTIONS ************************************************************
  */
 
-/** BANNER **/
+/**** BANNER ******************************************************************/
 
 div#banner{
     
@@ -227,9 +247,6 @@ ul#navigation_bar{
 ul#navigation_bar > li{
     display: list_item;
     float: left;
-    border-left: solid #881D1D 1px;    
-    border-right: solid #881D1D 1px;
-
 }
 
 ul#navigation_bar > li > a{

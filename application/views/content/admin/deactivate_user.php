@@ -16,7 +16,7 @@
             html_escape($email));
     $this->table->add_row(array(
         "colspan" =>    2,
-        "data" =>       form_submit("submit", "Deactivate", "class = red_button").  button("admin/edit_user/$user_id", "Cancel")));
+        "data" =>       form_submit("submit", "Deactivate", "class = critical_button").  button("admin/edit_user/$user_id", "Cancel")));
 
 ?>
 

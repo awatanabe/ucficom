@@ -156,22 +156,22 @@ class Table_form {
     }
             
     /**
-     * Creates a line with a submit and cancel buttons.
+     * Creates a line with a submit and cancel buttons in the right column
      * @param type $submit_label
      * @param type $extra Additional html to go in the cell
      * @param type $submit_name
      * @return type
      */
     
-    public function submit_cancel($submit_label, $cancel_uri, $cancel_label,
+    public function submit_cancel($submit_label, $cancel_uri, $cancel_label = "Cancel",
      $submit_name = SUBMIT_NAME){
         $this->add_row(
                 array(
                     "class" => "right_align",
-                    "data" =>  form_submit($submit_name, $submit_label)),
+                    "data" =>  "&nbsp"),
                 array(
                     "class" => "left_align",
-                    "data"  => button($cancel_uri, $cancel_label)));
+                    "data"  => (form_submit($submit_name, $submit_label)).button($cancel_uri, $cancel_label)) );
         
         return;
     }    

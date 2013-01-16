@@ -215,7 +215,7 @@ class admin extends UC_Controller {
         if($this->input->post(SUBMIT_NAME)){
             
             // Set form rules
-            $this->form_validation->set_rules(USERS_PASSWORD, "Email", "required");
+            $this->form_validation->set_rules(USERS_PASSWORD, "Password", "required");
             
             // Check if submissions passed rules
             if($this->form_validation->run() == TRUE){

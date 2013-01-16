@@ -24,4 +24,29 @@ class main extends UC_Controller {
         $this->display($this->get_view("content/main/index"));
     }
     
+    /**
+     * Logs out the user and redirects to the external home page
+     */
+    
+    public function logout(){
+        
+        // Make this so that log out can't be done through direct access
+        if($this->input->post(SUBMIT_NAME) == TRUE){
+            
+            // Set user as logged out
+            $this->authentication->log_out();
+
+            // Notify user they have logged out
+            $this->set_message("Logout Successful", "Goodbye");
+            
+            // Redirects to external home page
+            redirect(EXTERNAL_HOME);            
+        }
+            
+        // Load logout form
+        $template_data["logout_form"] = $this->get_view("content/forms/logout");
+        
+        $this->display_view("content/main/logout", $template_data);        
+    }
+    
 }

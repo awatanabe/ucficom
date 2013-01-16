@@ -31,15 +31,52 @@ class UC_Controller extends CI_Controller {
         // Load helpers
         $this->load->helper('url');
         $this->load->helper('html'); #Needed for template
+        $this->load->helper("form"); #Needed for logout
         
         // Load libraries
         $this->load->library('session');
         $this->load->library('authentication');
         
         // Check if user is authorized to access controller
-        if(!$this->authentication->check_authorization($this->security_zone)){
-            echo "Access not authorized";
-            exit;
+        if($this->authentication->check_authorization($this->security_zone) == FALSE){
+            
+            // If user is logged in, return to previous page and apologize
+            if($this->authentication->is_logged_in() == TRUE){
+                
+                // Set apology messages
+                $this->set_message("Unauthorized Access", 
+                        "You are not authorized to access this page. Contact an administrator if you need access to this page.");
+                
+                redirect($this->get_last());
+            }
+            // Otherwise, redirect to login page
+            else{
+                
+                // Set message
+                $this->set_message("Unauthorized Access",
+                        "You are not currently logged in. Log in to access this page.");
+                // Set page to be redirected to after login
+                $this->session->set_userdata(LOGIN_REDIRECT, current_url());
+                
+                // Redirect to login
+                redirect(LOGIN);
+            }
+        }
+    }
+    
+    /**
+     * Returns the prior page within the site that the user visited. If the user
+     * has not been on any pages on the site, return the external home page.
+     */
+    
+    public function get_last(){
+        $prior = $this->session->userdata(LAST_PAGE);
+        if($prior == TRUE){
+            return $prior;
+        }
+        else{
+            // If user is new to site, return home page
+            return EXTERNAL_HOME;
         }
     }
     
@@ -78,8 +115,7 @@ class UC_Controller extends CI_Controller {
 
             return TRUE;            
         }
-        return FALSE;
-        
+        return FALSE;   
     }
     
     /**
@@ -98,10 +134,13 @@ class UC_Controller extends CI_Controller {
 
         // Determine the correct link for the home page depending on controller
         if($this->security_zone == EXTERNAL){
-           $banner_data["home_url"] = site_url("external/index");
+           $banner_data["home_url"] = site_url(EXTERNAL_HOME);
+           $banner_data["action"]   = button(site_url(LOGIN), "Login");
         }
         else{
-            $banner_data["home_url"] = site_url("main/index");
+            $banner_data["home_url"] = site_url(INTERNAL_HOME);
+            // This is log out rather than "logout" for a reason
+            $banner_data["action"]   = $this->get_view("content/forms/logout");
         }
         
         // Load actual view
@@ -117,6 +156,21 @@ class UC_Controller extends CI_Controller {
         $this->session->unset_userdata(MESSAGE);
         
         $this->load->view("universal/template", $template_data);
+        
+        // Set the current URL as the last page visited
+        $this->session->set_userdata(LAST_PAGE, current_url());
+    }
+    
+    /**
+     * Shortcut for displaying content where there is just one main view being
+     * used. Note that display_view() or display() should only be called once.
+     * 
+     * @param type $view
+     * @param type $data
+     */
+    
+    public function display_view($view, $data = NULL){
+        $this->display($this->get_view($view, $data));
     }
 }
 

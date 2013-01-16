@@ -105,6 +105,21 @@ define("MESSAGE_ALERT",     "message_alert");
 
 /*
 |--------------------------------------------------------------------------
+| Page URLs
+|--------------------------------------------------------------------------
+|
+| Internal URLs of commonly accessed pages
+|
+*/
+
+// The element in the sessions array where a user's security level is stored
+define("INTERNAL_HOME", "main/index");
+define("EXTERNAL_HOME", "external/index");
+define("LOGIN",         "external/login");
+define("LOGOUT",        "main/logout");
+
+/*
+|--------------------------------------------------------------------------
 | Sessions Data
 |--------------------------------------------------------------------------
 |
@@ -113,8 +128,12 @@ define("MESSAGE_ALERT",     "message_alert");
 */
 
 // The element in the sessions array where a user's security level is stored
-define("SECURITY_LEVEL", "security_level");
+define("SECURITY_LEVEL",    "security_level");
 define("MESSAGE", "message");
+// Location for where to redirect a user after login
+define("LOGIN_REDIRECT",    "login_redirect");
+// Last page the user visited
+define("LAST_PAGE",         "last_page");
 
 /*
 |--------------------------------------------------------------------------

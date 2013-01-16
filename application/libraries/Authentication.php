@@ -16,6 +16,18 @@
  */
 class Authentication {
     
+    // Code Igniter object
+    private $CI;
+    
+    public function __construct() {
+ 
+        // Get Instance of CodeIgniter object
+        $this->CI =& get_instance();
+        
+        // Load libraries
+        $this->CI->load->library('session');
+     
+    }
     /**
      * Checks whether a user is authorized to access a given security level
      * 
@@ -28,12 +40,8 @@ class Authentication {
             return TRUE;
         }
         
-        // Initialize sessions library
-        $CI =& get_instance();
-        $CI->load->library('session');
-        
         // Get the user's authorization level. If new sessions, returns FALSE
-        $user_authorization = $CI->session->userdata(SECURITY_LEVEL);
+        $user_authorization = $this->CI->session->userdata(SECURITY_LEVEL);
 
         // Checks if user already has sessions
         if($user_authorization){
@@ -42,9 +50,49 @@ class Authentication {
         }
         else 
             // Start session and set user's access as public
-            $CI->session->set_userdata(SECURITY_LEVEL, EXTERNAL);
+            $this->CI->session->set_userdata(SECURITY_LEVEL, EXTERNAL);
             return FALSE;   
     }
+    
+    /**
+     * Checks whether the current user is logged in. Does not check whether the
+     * user is authorized to access the current page. Use check_authorizaiton 
+     * for that purpose
+     */
+    
+    public function is_logged_in(){
+        return $this->CI->session->userdata(SECURITY_LEVEL) & AUTHENTICATED;
+    }
+    
+    
+    /**
+     * Marks a user as logged inw ith the given security level
+     * 
+     * @param type $security_level The user's security level
+     */
+    
+    public function log_in($security_level){
+        
+        // Set user's security level in sessions
+        $this->CI->session->set_userdata(SECURITY_LEVEL, $security_level);
+        
+        return TRUE;
+    }
+    
+    public function log_out(){
+        
+        // Hack to unset only the non-critical parts of the session
+        // Source: http://stackoverflow.com/questions/10509022/codeigniter-unset-all-userdata-but-not-destroy-the-session
+        $user_data = $this->CI->session->all_userdata();
+
+        foreach ($user_data as $key => $value) {
+            if ($key != 'session_id' && $key != 'ip_address' && $key != 'user_agent' && $key != 'last_activity') {
+                $this->CI->session->unset_userdata($key);
+            }
+        }
+        
+        return TRUE;
+    }    
     
     /**
      * Salts a password.

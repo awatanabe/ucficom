@@ -8,7 +8,7 @@
     <!-- Load general style sheet -->
     <link href="/css/styles.css" rel="stylesheet" type="text/css">
     <!-- Load favicon -->
-    <link rel="icon" type="image/png" href="images/ficom.ico">
+    <link rel="icon" type="image/png" href="/images/ficom.ico">
     <!-- Load jquery library and javascript files
     <script src="/javascript/jquery-1.7.2.min.js"></script>
     <script src="/javascript/loader.js"></script>-->

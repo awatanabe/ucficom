@@ -223,6 +223,15 @@ class admin extends UC_Controller {
         $user_data = $this->_process_user_id($user_id);  
         
         if($this->input->post(SUBMIT_NAME)){
+ 
+            // Check that form submitted for same user - potential hack
+            if(current_url() != $this->get_last()){
+                $this->set_message("Error", "User IDs did not match in submitted data. Please try again.",
+                        MESSAGE_ALERT);
+                
+                // Redirect to this page
+                redirect(current_url());
+            }
             
             // Set form rules
             $this->form_validation->set_rules(USERS_PASSWORD, "Password", "required");
@@ -259,6 +268,15 @@ class admin extends UC_Controller {
         // Attempt to delete user if requested
         if($this->input->post("submit") == TRUE){
 
+            // Check that form submitted for same user - potential hack
+            if(current_url() != $this->get_last()){
+                $this->set_message("Error", "User IDs did not match in submitted data. Please try again.",
+                        MESSAGE_ALERT);
+                
+                // Redirect to this page
+                redirect(current_url());
+            }            
+            
             // Deactivate the user, retaining all data except the security level
             $this->users->deactivate_user($user_id);
             

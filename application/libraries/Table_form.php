@@ -94,7 +94,7 @@ class Table_form {
      * @param type $input_html
      */
     
-    public function add_line($content, $class = "center"){
+    public function add_line($content, $class = "center_align"){
         $this->CI->table->add_row(array(
             "colspan" => 2,
             "class" =>  $class,
@@ -103,14 +103,22 @@ class Table_form {
     }    
     
     /**
-     * Basic text input.
+     * Basic text input. Note that default values do not need to be escaped - CI does this 
+     * automatically.
      * 
      * @param type $label_text
      * @param type $name
      * @param type $default_value
+     * @param bool $set_value When TRUE, will attempt to fill the form with any previously submitted values.
      */
     
-    public function text_input($label_text, $name, $default_value = NULL){
+    public function text_input($label_text, $name,
+            $default_value = NULL, $set_value = TRUE){
+        
+        if($set_value == TRUE){
+            $default_value = set_value($name, $default_value);
+        }
+        
         $this->add_input_row($label_text, $name, 
              form_input(array(
                 "name"  => $name,
@@ -124,9 +132,16 @@ class Table_form {
      * @param type $label_text
      * @param type $name
      * @param type $default_value
+     * @param bool $set_value When TRUE, will attempt to fill the form with any previously submitted values.
      */
     
-    public function password_input($label_text, $name, $default_value = NULL){
+    public function password_input($label_text, $name,
+            $default_value = NULL, $set_value = TRUE){
+        
+        if($set_value == TRUE){
+            $default_value = set_value($name, $default_value);
+        }
+        
         $this->add_input_row($label_text, $name, 
              form_password(array(
                 "name"  => $name,
@@ -134,7 +149,22 @@ class Table_form {
                 "value" => $default_value)));    
     }  
     
-    public function checkbox_input($label_text, $name, $value, $checked = FALSE){
+    /**
+     * 
+     * @param type $label_text
+     * @param type $name
+     * @param type $value
+     * @param type $checked
+     * @param bool $set_checkbox When TRUE, will see if box is checked from previously submission
+     */
+    
+    public function checkbox_input($label_text, $name, $value,
+            $checked = FALSE, $set_checkbox = TRUE){
+        
+        if($set_checkbox == TRUE){
+            $checked = set_checkbox($name, $value, $checked);
+        }
+        
         $this->add_input_row($label_text, $name, 
             form_checkbox(
                     $name,
@@ -171,7 +201,8 @@ class Table_form {
                     "data" =>  "&nbsp"),
                 array(
                     "class" => "left_align",
-                    "data"  => (form_submit($submit_name, $submit_label)).button($cancel_uri, $cancel_label)) );
+                    "data"  => (form_submit($submit_name, $submit_label)).
+                                button($cancel_uri, $cancel_label)));
         
         return;
     }    

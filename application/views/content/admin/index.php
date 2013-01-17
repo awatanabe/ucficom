@@ -1,5 +1,4 @@
-ADMIN HOME PAGE
-<br>
-<a href="<?= site_url("admin/new_user")?>">Add user</a>
+<h2>ADMIN HOME PAGE</h2>
+<?= anchor("admin/new_user", "Add user") ?>
 <br>
 <?= $users ?>

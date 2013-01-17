@@ -112,6 +112,21 @@ define("MESSAGE_ALERT",     "message_alert");
 
 /*
 |--------------------------------------------------------------------------
+| Button Types
+|--------------------------------------------------------------------------
+|
+| Different stylings for buttons. These refer to the CSS classes used to style the button.
+|
+*/
+
+// The element in the sessions array where a user's security level is stored
+define("BUTTON_NORMAL",    "normal_button");
+define("BUTTON_ACTION",    "action_button");
+define("BUTTON_CRITICAL",  "critical_button");
+
+
+/*
+|--------------------------------------------------------------------------
 | Page URLs
 |--------------------------------------------------------------------------
 |

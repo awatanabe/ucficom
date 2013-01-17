@@ -68,14 +68,15 @@ class Authentication {
     /**
      * Marks a user as logged inw ith the given security level
      * 
-     * @param type $security_level The user's security level
+     * @param array $user_data The array of user data returned from the database
      */
     
-    public function log_in($security_level){
+    public function log_in(array $user_data){
         
         // Set user's security level in sessions
-        $this->CI->session->set_userdata(SECURITY_LEVEL, $security_level);
-        
+        $this->CI->session->set_userdata(SECURITY_LEVEL, $user_data[USERS_SECURITY_LEVEL]);
+        // Cache user's ID number in sesssions
+        $this->CI->session->set_userdata(USER_ID, $user_data[USERS_USER_ID]);
         return TRUE;
     }
     

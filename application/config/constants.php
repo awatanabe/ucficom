@@ -152,6 +152,8 @@ define("ADMIN_HOME",    "admin/index");
 
 // The element in the sessions array where a user's security level is stored
 define("SECURITY_LEVEL",    "security_level");
+// The user's ID
+define("USER_ID", "user_id");
 define("MESSAGE", "message");
 // Location for where to redirect a user after login
 define("LOGIN_REDIRECT",    "login_redirect");

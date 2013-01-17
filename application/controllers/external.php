@@ -70,7 +70,7 @@ class External extends UC_Controller {
                     $this->authentication->hash_password($this->input->post(USERS_PASSWORD))){
 
                     // Log user in
-                    $this->authentication->log_in($user_data[USERS_SECURITY_LEVEL]);
+                    $this->authentication->log_in($user_data);
 
                     // Set message to notify user
                     $this->set_message("Login Successful", "Welcome back ".

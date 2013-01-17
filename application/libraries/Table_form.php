@@ -56,6 +56,32 @@ class Table_form {
         $this->CI->table->clear();
     }
     
+    /**
+     * Adds a header row to the table
+     * 
+     * @param mixed $column_left Content for the left column. May either be a string of the content
+     * for the header cell or an array containing content and styling information such as those used
+     * for table->add_row()
+     * @param mixed $column_right Content for the right column.
+     */
+    
+    public function header_row($column_left, $column_right){
+        $this->CI->table->set_heading($column_left, $column_right);
+    }
+    
+    /**
+     * Adds a header row to the table that contains only one column. Equivalent for header of
+     * add_line().
+     * 
+     */
+    
+    public function header_line($content, $class = "center_align"){
+        $this->CI->table->set_heading(array(
+            "colspan" => 2,
+            "class" => $class,
+            "data" => $content));
+    }    
+    
     /** 
      * Adds a row to the table wtih two columns.
      * @param mixed $column_left The left column. May be either just content or an array with data for the cell just as in table->add_row

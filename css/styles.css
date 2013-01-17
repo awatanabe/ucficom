@@ -17,6 +17,7 @@
     Dark Critical: #662A2A
     | - "Red" buttons
     | - Important text (highlight class).
+    | - Labels
     Light Critical: #C35050;
     | - "Red" button hover
     | - Alert message background
@@ -68,6 +69,11 @@ a, a:visited{
 a:hover{
     color: #45A8A8;
     text-decoration: none;
+}
+
+/*** FORMS ****************************************************************************************/
+label{
+    color: #662A2A;
 }
 
 /*** BUTTONS ******************************************************************/
@@ -173,12 +179,16 @@ th{
    text-align: left;
 }
 
-.center{
+.center_align{
     text-align: center;
 }
 
 .right_align{
     text-align: right;
+}
+
+.justified{
+    text-align: justify;
 }
 /** INDIVIDUAL ELEMENTS **/
 hr{
@@ -202,8 +212,6 @@ div#banner{
     /* Set padding */
     padding-top: 10px;
     padding-bottom: 10px;
-    
-    height: 60px;    
     
     background: #F0F0F0;
     
@@ -235,7 +243,6 @@ div#navigation{
     /* White text */
     color: #FFFFFF;
     font-size: 1.25em;
-    height: 100%;
 }
 
 div#navigation_area{

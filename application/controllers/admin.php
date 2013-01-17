@@ -134,6 +134,15 @@ class admin extends UC_Controller {
         /* Check whether updates submitted and address */
         if($this->input->post('submit')){
             
+            // Check that form submitted for same user - potential hack
+            if(current_url() != $this->get_last()){
+                $this->set_message("Error", "User IDs did not match in submitted data. Please try again.",
+                        MESSAGE_ALERT);
+                
+                // Redirect to this page
+                redirect(current_url());
+            }
+            
             // Set the form validation rules
             $this->form_validation->set_rules("email", "Email",
                     "required|valid_email|callback__unique_email[$user_id]");

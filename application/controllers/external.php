@@ -80,6 +80,9 @@ class External extends UC_Controller {
                     $redirect = ($this->session->userdata(LOGIN_REDIRECT)) ?
                         $this->session->userdata(LOGIN_REDIRECT) :
                         INTERNAL_HOME;
+                    
+                    // Clear the redirect
+                    $this->session->unset_userdata(LOGIN_REDIRECT);
                     redirect($redirect);
 
                 }

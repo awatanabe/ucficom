@@ -21,7 +21,7 @@ class main extends UC_Controller {
     }
     
     public function index(){
-        $this->display($this->get_view("content/main/index"));
+        $this->display_view("content/main/index", "Interal Home");
     }
     
     /**
@@ -46,7 +46,7 @@ class main extends UC_Controller {
         // Load logout form
         $template_data["logout_form"] = $this->get_view("content/forms/logout");
         
-        $this->display_view("content/main/logout", $template_data);        
+        $this->display_view("content/main/logout", "Logout", $template_data);        
     }
     
 }

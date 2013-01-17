@@ -30,7 +30,7 @@ class External extends UC_Controller {
     }
 
     public function index(){
-        $this->display($this->get_view("content/external/index"));
+        $this->display_view("content/external/index", "Welcome");
     }
     
     public function login(){
@@ -104,7 +104,7 @@ class External extends UC_Controller {
         // Load login form
         $template_data["login_form"] = $this->get_view("content/forms/login");
                
-        $this->display_view("content/external/login", $template_data);
+        $this->display_view("content/external/login", "Login", $template_data);
     }
 }
 ?>

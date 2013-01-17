@@ -12,7 +12,7 @@
     <!-- Load jquery library and javascript files
     <script src="/javascript/jquery-1.7.2.min.js"></script>
     <script src="/javascript/loader.js"></script>-->
-    <title>FiCom Web Portal</title>
+    <title>UC FiCom<?= $title?></title>
 </head>
 
 <body class="wrapper">

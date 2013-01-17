@@ -52,8 +52,7 @@ class admin extends UC_Controller {
         $user_table = $this->get_view("content/admin/index_table",
                 array("table_data" => $this->users->get_active()));
         
-        $this->display($this->get_view("content/admin/index", 
-                array("users" => $user_table)));
+        $this->display_view("content/admin/index", "Admin", array("users" => $user_table));
     }
     
     public function new_user(){
@@ -117,7 +116,7 @@ class admin extends UC_Controller {
             $this->get_view("content/forms/new_user");
         
         // Load page view
-        $this->display($this->get_view("content/admin/new_user", $view_data));
+        $this->display_view("content/admin/new_user", "New User", $view_data);
     }
     
     /**
@@ -145,9 +144,8 @@ class admin extends UC_Controller {
             
             // Set the form validation rules
             $this->form_validation->set_rules("email", "Email",
-                    "required|valid_email|callback__unique_email[$user_id]");
-            $this->form_validation->set_rules("first_name", "First Name", 
-                    "required");
+             "required|valid_email|callback__unique_email[$user_id]");
+            $this->form_validation->set_rules("first_name", "First Name", "required");
             $this->form_validation->set_rules("last_name", "Last Name", "required");
             
             // Set rules for security zones
@@ -256,8 +254,8 @@ class admin extends UC_Controller {
             }
         }
         
-        $this->display($this->get_view("content/admin/reset_password", 
-                $user_data));
+        // Display view
+        $this->display_view("content/admin/reset_password", "Reset Password", $user_data);
     }
     
     public function deactivate_user($user_id){
@@ -289,8 +287,7 @@ class admin extends UC_Controller {
             
         }
         
-        $this->display($this->get_view("content/admin/deactivate_user", 
-                $user_data));
+        $this->display_view("content/admin/deactivate_user", "Deactivate User", $user_data);
     }
     
     /**
@@ -298,7 +295,7 @@ class admin extends UC_Controller {
      */
     
     public function reactivate_user(){
-        $this->display("TODO - Contact SysAdmin to reactivate user.");
+        $this->display("TODO - Contact SysAdmin to reactivate user.", "Reactivate User");
     }
     
     /* HELPER METHODS */

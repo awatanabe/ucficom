@@ -124,12 +124,16 @@ class UC_Controller extends CI_Controller {
      * Displays content within the default template frame. Allows for 
      * different layouts given the security zone.
      * @param type $content
+     * @param string $title Page title to display is browser bar
      */
     
-    public function display($content){
+    public function display($content, $title = ''){
         
         // Store content for passing
         $template_data["content"] = $content;        
+        
+        // Store title - format with colon only if title text
+        $template_data["title"] = ($title == '') ? '' : ": $title";
         
         /* Load the banner */
         $banner_data = array();
@@ -175,8 +179,8 @@ class UC_Controller extends CI_Controller {
      * @param type $data
      */
     
-    public function display_view($view, $data = NULL){
-        $this->display($this->get_view($view, $data));
+    public function display_view($view, $title = '', array $data = NULL){
+        $this->display($this->get_view($view, $data), $title);
     }
 }
 

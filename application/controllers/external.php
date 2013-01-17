@@ -98,6 +98,9 @@ class External extends UC_Controller {
             }            
         }
         
+        // Clear redirect. If user navigates away, no longer direct to that internal page
+        $this->session->unset_userdata(LOGIN_REDIRECT);
+        
         // Load login form
         $template_data["login_form"] = $this->get_view("content/forms/login");
                

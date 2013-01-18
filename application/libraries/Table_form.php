@@ -219,16 +219,20 @@ class Table_form {
      * @return type
      */
     
-    public function submit_cancel($submit_label, $cancel_uri, $cancel_label = "Cancel",
-     $submit_name = SUBMIT_NAME){
+    public function submit_cancel($submit_label, $cancel_uri,
+            $submit_color = BUTTON_ACTION, $cancel_label = "Cancel", $submit_name = SUBMIT_NAME){
         $this->add_row(
                 array(
                     "class" => "right_align",
                     "data" =>  "&nbsp"),
                 array(
                     "class" => "left_align",
-                    "data"  => (form_submit($submit_name, $submit_label)).
-                                button($cancel_uri, $cancel_label)));
+                    "data"  => (form_submit(
+                                    array(
+                                        "name" => $submit_name,
+                                        "value" => $submit_label,
+                                        "class" => $submit_color)).
+                                button($cancel_uri, $cancel_label))));
         
         return;
     }    

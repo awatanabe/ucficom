@@ -21,16 +21,14 @@ class External extends UC_Controller {
         $this->load->model("users");    
         
         // Load helpers
-        $this->load->helper("form");
         $this->load->helper("validation");        
         
         // Load libraries
-        $this->load->library("form_validation");
-        $this->load->library("table");            
+        $this->load->library("form_validation");           
     }
 
     public function index(){
-        $this->display_view("content/external/index", "Welcome");
+        $this->display->display_view("content/external/index", "Welcome");
     }
     
     public function login(){
@@ -102,9 +100,9 @@ class External extends UC_Controller {
         $this->session->unset_userdata(LOGIN_REDIRECT);
         
         // Load login form
-        $template_data["login_form"] = $this->get_view("content/forms/login");
+        $template_data["login_form"] = $this->display->get_view("content/forms/login");
                
-        $this->display_view("content/external/login", "Login", $template_data);
+        $this->display->display_view("content/external/login", "Login", $template_data);
     }
 }
 ?>

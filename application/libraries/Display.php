@@ -15,8 +15,10 @@ class display {
     
     public function __construct() {
         // Get Instance of CodeIgniter object
-        $this->CI =& get_instance();
         
+        
+        $this->CI =& get_instance();
+ 
         // Load helpers
         $this->CI->load->helpers("form");        
         $this->CI->load->helpers("html");
@@ -26,8 +28,10 @@ class display {
         $this->CI->load->library("authentication");
         $this->CI->load->library("form_validation");     
         $this->CI->load->library("session");        
-        $this->CI->load->lbirary("table");
+        $this->CI->load->library("table");     
         $this->CI->load->library("table_form");
+                      
+
     }
     
     /**
@@ -80,17 +84,17 @@ class display {
         $template_data["navigation"] = $this->get_view("universal/navigation");
         
         /* Determine alerts to display */
-        $template_data[MESSAGE] = ($this->session->userdata(MESSAGE) == TRUE) ?
+        $template_data[MESSAGE] = ($this->CI->session->userdata(MESSAGE) == TRUE) ?
             $this->get_view("universal/message", 
                     $this->session->userdata(MESSAGE)) :
             '';
         // Clear old alerts
-        $this->session->unset_userdata(MESSAGE);
+        $this->CI->session->unset_userdata(MESSAGE);
         
-        $this->load->view("universal/template", $template_data);
+        $this->CI->load->view("universal/template", $template_data);
         
         // Set the current URL as the last page visited
-        $this->session->set_userdata(LAST_PAGE, current_url());
+        $this->CI->session->set_userdata(LAST_PAGE, current_url());
     }
     
     /**

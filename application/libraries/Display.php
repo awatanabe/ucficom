@@ -14,9 +14,7 @@ class display {
     private $CI;
     
     public function __construct() {
-        // Get Instance of CodeIgniter object
-        
-        
+        // Get instance of CodeIgniter object
         $this->CI =& get_instance();
  
         // Load helpers
@@ -30,8 +28,6 @@ class display {
         $this->CI->load->library("session");        
         $this->CI->load->library("table");     
         $this->CI->load->library("table_form");
-                      
-
     }
     
     /**

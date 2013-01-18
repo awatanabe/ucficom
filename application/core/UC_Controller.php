@@ -66,50 +66,6 @@ class UC_Controller extends CI_Controller {
             }
         }
     }
-    
-    /**
-     * Returns the prior page within the site that the user visited. If the user
-     * has not been on any pages on the site, return the external home page.
-     */
-    
-    public function get_last(){
-        $prior = $this->session->userdata(LAST_PAGE);
-        if($prior == TRUE){
-            return $prior;
-        }
-        else{
-            // If user is new to site, return home page
-            return EXTERNAL_HOME;
-        }
-    }
-    
-    /**
-     * Creates an message to display on the next time display is called. 
-     * Message must contain content in order to be set.
-     * 
-     * Returns TRUE if message set; returns FALSE if no content in message and 
-     * thus message not set.
-     * 
-     * @param string $message Text of the message to display
-     * @param string $message_type Type of message to display. 
-     */
-    
-    public function set_message($title, $message,  
-            $message_type = MESSAGE_NORMAL){
-        
-        if($message != ''){
-            
-            $this->session->set_userdata(MESSAGE, array(
-                "content" =>    $message,
-                "type" =>       $message_type,
-                "title" =>      $title));
-
-            return TRUE;            
-        }
-        return FALSE;   
-    }
-    
-    
-    }
+}
 
 ?>

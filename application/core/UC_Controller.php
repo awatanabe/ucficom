@@ -23,7 +23,7 @@ class UC_Controller extends CI_Controller {
     public function __construct ($security_zone){
         
         // Wonderful inheritance from ma and pa
-        parent::__construct();        
+        parent::__construct();          
         
         // Save the security level of the controller
         $this->security_zone = (DEVELOPMENT == TRUE) ?
@@ -33,10 +33,11 @@ class UC_Controller extends CI_Controller {
         // Load helpers
         $this->load->helper('url');
         $this->load->helper('html'); #Needed for template
-        $this->load->helper("form"); #Needed for logout
+        $this->load->helper("form"); #Needed for logout         
         
         // Load libraries
         $this->load->library("display");
+        $this->load->library("service");
         $this->load->library('session');
         $this->load->library('authentication');
         
@@ -47,19 +48,19 @@ class UC_Controller extends CI_Controller {
             if($this->authentication->is_logged_in() == TRUE){
                 
                 // Set apology messages
-                $this->set_message("Unauthorized Access", 
+                $this->service->set_message("Unauthorized Access", 
                         "You are not authorized to access this page. Contact an administrator if you need access to this page.");
                 
-                redirect($this->get_last());
+                redirect($this->service->get_last());
             }
             // Otherwise, redirect to login page
             else{
                 
                 // Set message
-                $this->set_message("Unauthorized Access",
+                $this->service->set_message("Unauthorized Access",
                         "You are not currently logged in. Log in to access this page.");
                 // Set page to be redirected to after login
-                $this->session->set_userdata(LOGIN_REDIRECT, current_url());
+                $this->service->login_redirect(current_url());
                 
                 // Redirect to login
                 redirect(LOGIN);

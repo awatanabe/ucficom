@@ -14,7 +14,7 @@
  *
  * @author aaronwatanabe
  */
-class services {
+class Service {
     
     // Codeigniter superobject
     private $CI;

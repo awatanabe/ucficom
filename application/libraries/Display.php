@@ -8,7 +8,7 @@
  * Library for loading views in any orderly fashion to achieve some degree of layout consistency.
  */
 
-class display {
+class Display {
     
     // Codeigniter superobject
     private $CI;
@@ -24,7 +24,8 @@ class display {
         
         // Load libraries
         $this->CI->load->library("authentication");
-        $this->CI->load->library("form_validation");     
+        $this->CI->load->library("form_validation");
+        $this->CI->load->library("service");
         $this->CI->load->library("session");        
         $this->CI->load->library("table");     
         $this->CI->load->library("table_form");
@@ -82,7 +83,7 @@ class display {
         /* Determine alerts to display */
         $template_data[MESSAGE] = ($this->CI->session->userdata(MESSAGE) == TRUE) ?
             $this->get_view("universal/message", 
-                    $this->session->userdata(MESSAGE)) :
+                    $this->CI->session->userdata(MESSAGE)) :
             '';
         // Clear old alerts
         $this->CI->session->unset_userdata(MESSAGE);

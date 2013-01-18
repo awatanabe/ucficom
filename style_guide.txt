@@ -1,5 +1,23 @@
 STYLE GUIDE FOR FICOM WEB PORTAL
 
+/*
+ * Naming
+ */
+
+// Libraries
+- Library names should be singular (i.e. "service" not "services")
+
+/*
+ * Initializing Functions
+ */
+- Constructor classes should load helpers, then libraries, then models. In alphabetical order
+
+
+/*
+ * Element Styling
+ */
+
+
 /** Page Layout **/
 // Width
 The body is set to be 940px wide. However, the canvas for actual views should be
@@ -16,6 +34,7 @@ H3 - Define the subsection of a given section.
 
 /** General **/
 - All direct output from users should be escaped using
+- Output through set_value() and similar function for forms is automatically escaped.
 
 /* Forms */
 - All submit buttons should have the name "submit"

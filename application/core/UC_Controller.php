@@ -38,7 +38,6 @@ class UC_Controller extends CI_Controller {
         // Load libraries
         $this->load->library("display");
         $this->load->library("service");
-        $this->load->library('session');
         $this->load->library('authentication');
         
         // Check if user is authorized to access controller

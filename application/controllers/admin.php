@@ -21,19 +21,16 @@ class admin extends UC_Controller {
     public function __construct(){
          
         // Get the estate from the parental unit
-        parent::__construct(ADMIN);
-        
-        // Load user model - controller for managing user table
-        $this->load->model("users");    
+        parent::__construct(ADMIN); 
         
         // Load helpers
-        $this->load->helper("form");
         $this->load->helper("validation");        
         
         // Load libraries
         $this->load->library("form_validation");
-        $this->load->library("table");  
-        $this->load->library("table_form");
+             
+        // Load user model - controller for managing user table
+        $this->load->model("users");           
         
         // Unserialize internal security zones
         $this->INTERNAL_SECURITY_ZONES = unserialize(INTERNAL_SECURITY_ZONES);

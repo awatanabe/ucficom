@@ -3,6 +3,11 @@ STYLE GUIDE FOR FICOM WEB PORTAL
 /*
  * Basic conventions
  */
+
+// Constructor Classes
+- Load helpers, then libraries, then models. Each should be in alphabetical order.
+- Do not load view classes (table, table_form, html). This is done through Display library
+
 // Quotes
 -  PHP code should use double quotes ("") and all HTML should use single quotes ('').
 

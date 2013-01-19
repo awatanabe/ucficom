@@ -1,6 +1,18 @@
 STYLE GUIDE FOR FICOM WEB PORTAL
 
 /*
+ * Basic conventions
+ */
+// Quotes
+-  PHP code should use double quotes ("") and all HTML should use single quotes ('').
+
+// Messages
+- Liberal use of messages is OK
+- Default message styling is MESSAGE_NORMAL we should be used for basic notices.
+- MESSAGE_SUCCESS should be used when information in the database is updated.
+- MESSAGE_ALERT should be used when there is an error.
+
+/*
  * Naming
  */
 

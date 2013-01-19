@@ -22,6 +22,7 @@ class Service {
     // Constants for field names for sessions data
     const USER_ID =  "user_id"; 
     const LOGIN_REDIRECT = "login_redirect";    
+    const MESSAGE = "message";
     
     public function __construct() {    
         // Get instance of CodeIgniter object
@@ -35,7 +36,7 @@ class Service {
         
         // Load libraries
         #$this->CI->load->library("authentication");
-        #$this->CI->load->library("form_validation");     
+        $this->CI->load->library("display");     
         $this->CI->load->library("session");        
         #$this->CI->load->library("table");     
         #$this->CI->load->library("table_form");    
@@ -122,6 +123,8 @@ class Service {
      **********************************************************************************************/    
     
     /**
+     * DEPRCIATED
+     * 
      * Creates an message to display on the next time display is called. 
      * Message must contain content in order to be set.
      * 
@@ -145,6 +148,51 @@ class Service {
         }
         return FALSE;   
     }
+    
+    /**
+     * Returns notification for the user to be displayed on the page. If there is no message, then 
+     * returns the empty string.
+     * If arguments are passed, then sets the message.
+     * 
+     * @param string $title The title of the message to display
+     * @param string $message Text of the message to display
+     * @param string $message_type Type of message to display. By default, MESSAGE_NORMAL. Messages
+     * to notify user of database updates should be MESSAGE_SUCCESS and those to notify the user of
+     * some kind of problem should be MESSAGE_ALERt.
+     */
+    
+    public function message($title = "", $message = "", $message_type = MESSAGE_NORMAL){
+        
+        // Check whether get or set
+        if ($title == "" && $message == ""){
+            // Extract information from sessions
+            $message_data = $this->CI->session->userdata(self::MESSAGE);
+            
+            // Determine if there is a message set and return accordingly
+            return ($message_data == TRUE) ? 
+                $this->CI->display->get_view("universal/message",$message_data) : "";    
+        }
+
+        // Otherwise, set the new message
+       $this->CI->session->set_userdata(MESSAGE, array(
+           "content" =>    $message,
+           "title" =>      $title,
+           "type" =>       $message_type));
+
+        return;    
+    }
+    
+    /**
+     * Clears the message
+     */
+    
+    public function clear_message(){
+        
+        $this->CI->session->unset_userdata(self::MESSAGE);
+    
+        return TRUE;
+    }     
+    
 }
 
 ?>

@@ -81,15 +81,13 @@ class Display {
         $template_data["navigation"] = $this->get_view("universal/navigation");
         
         /* Determine alerts to display */
-        $template_data[MESSAGE] = ($this->CI->session->userdata(MESSAGE) == TRUE) ?
-            $this->get_view("universal/message", 
-                    $this->CI->session->userdata(MESSAGE)) :
-            '';
-        // Clear old alerts
-        $this->CI->session->unset_userdata(MESSAGE);
-        
+        $template_data[MESSAGE] = $this->CI->service->message();
+
         $this->CI->load->view("universal/template", $template_data);
         
+        /* Cleanup - state data to change only on successful load of the view */
+        // Clear old message
+        $this->CI->session->unset_userdata(MESSAGE);
         // Set the current URL as the last page visited
         $this->CI->session->set_userdata(LAST_PAGE, current_url());
     }

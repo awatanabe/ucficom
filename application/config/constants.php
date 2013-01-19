@@ -45,41 +45,6 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 /*
 |--------------------------------------------------------------------------
-| Security Zones
-|--------------------------------------------------------------------------
-|
-| These define the different security levels. Authentication is done using
-| bitwise operations. Each zone is assigned a number that is a power of two and
-| each user receives a security number that is a bitwise combination of the 
-| zones they are authorized to access. Bitwise AND is then used to check whether
-| a user is authorized to access a particular controller.
-| 
-| An inactive user should have her status set to "INACTIVE"
-|
-*/
-
-define('INACTIVE',      0);
-define('EXTERNAL',      1);
-define('AUTHENTICATED', 2);
-define('ADMIN',         4);
-define("MANAGE",        8);
-
-$INTERNAL_SECURITY_ZONES = array(
-        "admin" => ADMIN,
-        "manage" => MANAGE);
-
-define("INTERNAL_SECURITY_ZONES", serialize($INTERNAL_SECURITY_ZONES));
-
-// Define security levels in array
-define("SECURITY_ZONES", serialize(array_merge(
-        array(
-            "inactive" => INACTIVE,
-            "external" => EXTERNAL,
-            "authenticated" => AUTHENTICATED),
-        $INTERNAL_SECURITY_ZONES)));
-
-/*
-|--------------------------------------------------------------------------
 | Database Titles
 |--------------------------------------------------------------------------
 |
@@ -140,6 +105,42 @@ define("EXTERNAL_HOME", "external/index");
 define("LOGIN",         "external/login");
 define("LOGOUT",        "main/logout");
 define("ADMIN_HOME",    "admin/index");
+
+/*
+|--------------------------------------------------------------------------
+| Security Zones
+|--------------------------------------------------------------------------
+|
+| These define the different security levels. Authentication is done using
+| bitwise operations. Each zone is assigned a number that is a power of two and
+| each user receives a security number that is a bitwise combination of the 
+| zones they are authorized to access. Bitwise AND is then used to check whether
+| a user is authorized to access a particular controller.
+| 
+| An inactive user should have her status set to "INACTIVE"
+|
+*/
+
+define('INACTIVE',      0);
+define('EXTERNAL',      1);
+define('AUTHENTICATED', 2);
+define('ADMIN',         4);
+define("MANAGE",        8);
+
+$INTERNAL_SECURITY_ZONES = array(
+        "admin" => ADMIN,
+        "manage" => MANAGE);
+
+define("INTERNAL_SECURITY_ZONES", serialize($INTERNAL_SECURITY_ZONES));
+
+// Define security levels in array
+define("SECURITY_ZONES", serialize(array_merge(
+        array(
+            "inactive" => INACTIVE,
+            "external" => EXTERNAL,
+            "authenticated" => AUTHENTICATED),
+        $INTERNAL_SECURITY_ZONES)));
+
 
 /*
 |--------------------------------------------------------------------------

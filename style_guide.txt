@@ -13,6 +13,13 @@ STYLE GUIDE FOR FICOM WEB PORTAL
 - MESSAGE_ALERT should be used when there is an error.
 
 /*
+ * Databases
+ */
+
+/** Groups **/
+
+
+/*
  * Naming
  */
 

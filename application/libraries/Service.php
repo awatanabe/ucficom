@@ -23,6 +23,7 @@ class Service {
     const USER_ID =  "user_id"; 
     const LOGIN_REDIRECT = "login_redirect";    
     const MESSAGE = "message";
+    const LAST_PAGE = "last_page";
     
     public function __construct() {    
         // Get instance of CodeIgniter object
@@ -83,7 +84,7 @@ class Service {
         }
         else{
             // Set the redirect URL
-            $this->CI->session->userdata(self::LOGIN_REDIRECT, $redirect_url);
+            $this->CI->session->set_userdata(self::LOGIN_REDIRECT, $redirect_url);
         }
     }
     
@@ -103,19 +104,19 @@ class Service {
      **********************************************************************************************/
     
     /**
-     * Returns the prior page within the site that the user visited. If the user
-     * has not been on any pages on the site, return the external home page.
+     * Returns the prior page within the site that the user visited. If the user has not been on any
+     *  pages on the site, return the external home page. If value is set, then updates last page.
      */
     
-    public function get_last(){
+    public function last_page($last = ''){
+        
+        // Check if get or set
+        if($last != ""){
+            return $this->CI->session->set_userdata(self::LAST_PAGE, $last);
+        }
+        // Otherwise, retrieve from sessions
         $prior = $this->CI->session->userdata(LAST_PAGE);
-        if($prior == TRUE){
-            return $prior;
-        }
-        else{
-            // If user is new to site, return home page
-            return EXTERNAL_HOME;
-        }
+        return ($prior == TRUE) ? $prior : EXTERNAL_HOME;
     }
     
     /***********************************************************************************************

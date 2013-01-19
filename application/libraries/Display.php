@@ -87,9 +87,9 @@ class Display {
         
         /* Cleanup - state data to change only on successful load of the view */
         // Clear old message
-        $this->CI->session->unset_userdata(MESSAGE);
+        $this->CI->service->clear_message();
         // Set the current URL as the last page visited
-        $this->CI->session->set_userdata(LAST_PAGE, current_url());
+        $this->CI->service->last_page(current_url());
     }
     
     /**

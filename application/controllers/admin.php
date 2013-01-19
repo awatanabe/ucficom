@@ -45,14 +45,11 @@ class admin extends UC_Controller {
      */
     public function index(){
         
-        // Load table library
-        $this->load->library("table");
-        
         // Build table with all of the active users
-        $user_table = $this->get_view("content/admin/index_table",
+        $user_table = $this->display->get_view("content/admin/index_table",
                 array("table_data" => $this->users->get_active()));
         
-        $this->display_view("content/admin/index", "Admin", array("users" => $user_table));
+        $this->display->display_view("content/admin/index", "Admin", array("users" => $user_table));
     }
     
     public function new_user(){
@@ -63,7 +60,8 @@ class admin extends UC_Controller {
             // Set the form validation rules
             $this->form_validation->set_rules("email", "Email",
                     "required|valid_email|callback__unique_email");
-            $this->form_validation->set_message("_unique_email", "This email address already exists in the system and must be unique.");
+            $this->form_validation->set_message("_unique_email",
+                    "This email address already exists in the system and must be unique.");
             $this->form_validation->set_rules("first_name", "First Name", 
                     "required");
             $this->form_validation->set_rules("last_name", "Last Name", "required");
@@ -101,22 +99,22 @@ class admin extends UC_Controller {
                         "added to system.";
                 
                 // Set success message
-                $this->set_message("User added", $add_message, MESSAGE_SUCCESS);
+                $this->service->message("User added", $add_message, MESSAGE_SUCCESS);
                 // On successful insertion, redirect to main admin page
                         redirect(site_url("admin/index"));
             }
             else{
                 // Notify user of errors in the form
-                $this->set_message("Error", validation_errors(), MESSAGE_ALERT);                
+                $this->service->message("Error", validation_errors(), MESSAGE_ALERT);                
             }
         }
         
         // Load input form for new users
         $view_data["new_user_form"] = 
-            $this->get_view("content/forms/new_user");
+            $this->display->get_view("content/forms/new_user");
         
         // Load page view
-        $this->display_view("content/admin/new_user", "New User", $view_data);
+        $this->display->display_view("content/admin/new_user", "New User", $view_data);
     }
     
     /**
@@ -134,9 +132,9 @@ class admin extends UC_Controller {
         if($this->input->post('submit')){
             
             // Check that form submitted for same user - potential hack
-            if(current_url() != $this->get_last()){
-                $this->set_message("Error", "User IDs did not match in submitted data. Please try again.",
-                        MESSAGE_ALERT);
+            if(current_url() != $this->service->last_page()){
+                $this->service->message("Error",
+                        "User ID did not match with update. Please try again.", MESSAGE_ALERT);
                 
                 // Redirect to this page
                 redirect(current_url());
@@ -169,16 +167,18 @@ class admin extends UC_Controller {
                 // Attempt to update information in database
                 if($this->users->update_user($user_data[USERS_USER_ID], $update_fields) == TRUE){
                     // Notify information successfully updated
-                    $this->set_message(
+                    $this->service->message(
                             "User Updated", 
-                            "Information for ".html_escape($user_data["first_name"])." ".html_escape($user_data["last_name"]).
+                            "Information for ".
+                                html_escape($this->input->post(USERS_FIRST_NAME))." ".
+                                html_escape($this->input->post(USERS_LAST_NAME)).
                                 " successfully updated.",
                             MESSAGE_SUCCESS);
                     redirect("admin/index");
                 }
                 else{
                     // Notify user unsuccessful update
-                    $this->set_message(
+                    $this->service->message(
                             "Update Error", 
                             "Unable to update the information for ".
                                 html_escape($user_data["first_name"])." ".
@@ -188,7 +188,7 @@ class admin extends UC_Controller {
             }
             else{
                 // Notify user of errors in the form
-                $this->set_message("Error", validation_errors(), MESSAGE_ALERT);                
+                $this->service->message("Error", validation_errors(), MESSAGE_ALERT);                
             }                          
         }
         
@@ -196,9 +196,7 @@ class admin extends UC_Controller {
         // Transform security level into array of values of each level
         foreach($this->INTERNAL_SECURITY_ZONES as $name => $value){
             // Set retain each zone's value if user is authorizes; else zero
-            $internal_zones[$name] = 
-                ($value & $user_data[USERS_SECURITY_LEVEL]) ?
-                TRUE : FALSE;
+            $internal_zones[$name] = ($value & $user_data[USERS_SECURITY_LEVEL]) ? TRUE : FALSE;
         } 
              
         // Remove security zone from data array and replace with above array
@@ -206,13 +204,12 @@ class admin extends UC_Controller {
         $form_data["default_values"] = array_merge($user_data, $internal_zones); 
         
         // Get form
-        $template_data["edit_form"] = $this->get_view("content/forms/edit_user",
+        $template_data["edit_form"] = $this->display->get_view("content/forms/edit_user",
                 $form_data);
         // Include user ID in the data
         $template_data["user_id"]   = $user_data[USERS_USER_ID];
                 
-        $this->display($this->get_view("content/admin/edit_user", 
-                $template_data));
+        $this->display->display_view("content/admin/edit_user", "Edit User", $template_data);
     }
     
     public function reset_password($user_id){
@@ -223,8 +220,8 @@ class admin extends UC_Controller {
         if($this->input->post(SUBMIT_NAME)){
  
             // Check that form submitted for same user - potential hack
-            if(current_url() != $this->get_last()){
-                $this->set_message("Error", "User IDs did not match in submitted data. Please try again.",
+            if(current_url() != $this->service->last_page()){
+                $this->service->message("Error", "User IDs did not match in submitted data. Please try again.",
                         MESSAGE_ALERT);
                 
                 // Redirect to this page
@@ -243,19 +240,19 @@ class admin extends UC_Controller {
                     $this->authentication->hash_password($this->input->post(USERS_PASSWORD))));
                 
                 // Notify of success and return to user edit page
-                $this->set_message("Password Updated", 
+                $this->service->message("Password Updated", 
                         "New password set in the database.",
                         MESSAGE_SUCCESS);
                 redirect(site_url("admin/edit_user/$user_id"));
             }
             else{
                 // Notify error
-                $this->set_message("Error", validation_errors(), MESSAGE_ALERT);
+                $this->service->message("Error", validation_errors(), MESSAGE_ALERT);
             }
         }
         
         // Display view
-        $this->display_view("content/admin/reset_password", "Reset Password", $user_data);
+        $this->display->display_view("content/admin/reset_password", "Reset Password", $user_data);
     }
     
     public function deactivate_user($user_id){
@@ -267,8 +264,8 @@ class admin extends UC_Controller {
         if($this->input->post("submit") == TRUE){
 
             // Check that form submitted for same user - potential hack
-            if(current_url() != $this->get_last()){
-                $this->set_message("Error", "User IDs did not match in submitted data. Please try again.",
+            if(current_url() != $this->service->last_page()){
+                $this->service->message("Error", "User IDs did not match in update. Please try again.",
                         MESSAGE_ALERT);
                 
                 // Redirect to this page
@@ -279,15 +276,15 @@ class admin extends UC_Controller {
             $this->users->deactivate_user($user_id);
             
             // Notify admin of success and return to admin home
-            $this->set_message(
+            $this->service->message(
                     "User Deactivated",
-                    html_escape($user_data[USERS_FIRST_NAME])." ".html_escape($user_data[USERS_FIRST_NAME])."'s account was deactivated.",
+                    html_escape($user_data[USERS_FIRST_NAME]." ".$user_data[USERS_LAST_NAME]).
+                    "'s account was deactivated.",
                     MESSAGE_SUCCESS);
-            redirect(site_url("admin/index"));
-            
+            redirect(site_url(ADMIN_HOME));   
         }
         
-        $this->display_view("content/admin/deactivate_user", "Deactivate User", $user_data);
+        $this->display->display_view("content/admin/deactivate_user", "Deactivate User", $user_data);
     }
     
     /**
@@ -295,7 +292,7 @@ class admin extends UC_Controller {
      */
     
     public function reactivate_user(){
-        $this->display("TODO - Contact SysAdmin to reactivate user.", "Reactivate User");
+        $this->display->display("TODO - Contact SysAdmin to reactivate user.", "Reactivate User");
     }
     
     /* HELPER METHODS */
@@ -366,7 +363,7 @@ class admin extends UC_Controller {
         // Check that the user_id is valid
         if(is_user_id($user_id) == FALSE){
             // Alert user to bad ID and return to index
-            $this->set_message( 
+            $this->service->message( 
                     "Invalid User ID",
                     "Could not load page because of bad user ID",
                     MESSAGE_ALERT);
@@ -379,7 +376,7 @@ class admin extends UC_Controller {
         if($user_data == FALSE ||
                 ($active_only == TRUE &&
                 $user_data[USERS_SECURITY_LEVEL] == INACTIVE)){
-            $this->set_message(
+            $this->service->message(
                 "Invalid User ID",
                 "User does not exist",
                 MESSAGE_ALERT);

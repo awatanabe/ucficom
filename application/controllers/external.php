@@ -37,7 +37,6 @@ class External extends UC_Controller {
         $this->load->model("users");
         
         $this->load->library("table_form");
-        $this->load->library("authentication");
         
         // Check if the user is already logged in and return to previous if so
         if($this->authentication->is_logged_in() == TRUE){

@@ -21,6 +21,46 @@ STYLE GUIDE FOR FICOM WEB PORTAL
  * Databases
  */
 
+// Table types
+- Primary Tables: Those tables that have their own models (i.e. users, groups, etc.) with 
+identifying information.
+- Secondary Tables: Also Dependent Tables. Tables that contain irregular information that are
+accessed in relation to an element in the primary table.
+- Reference Tables: Tables that are lookups for values in primary or secondary tables.
+
+// Primary Tables
+- Contain "metadata" (most basically the name) on a type of primary element in the table. Primary
+tables should be short - they should contain enough information to identify an element (i.e. the 
+type of information in a summary table of users, grants, groups, etc).
+
+// Dependent Tables
+- These contain irregular information related to individual elements in the primary table. For
+example, "groups_notes" contains note information for groups. Some groups may have no notes; others
+may have several. Thus it is "irregular" because it does not necessarily apply to each group.
+
+// Reference Tables
+- Allow for some degree of abstractions for labels and types.
+
+// Table naming
+- All table names should be plural
+- Dependent tables (i.e. table dependent on a primary) should have names prefixed by the primary
+table name
+
+// Column naming
+- Dependent table columns should have the singular of the table name prefixing the column name
+
+// Users.security_level, groups.type or similar field
+- The value "zero" is reserved for deactivated/canceled entries and should not otherwise be used
+
+/** Table Descriptions **/
+
+/* Users */
+// Unique columns
+- user_id
+- email
+
+
+
 /** Groups **/
 
 

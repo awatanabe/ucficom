@@ -45,6 +45,21 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 /*
 |--------------------------------------------------------------------------
+| Button Types
+|--------------------------------------------------------------------------
+|
+| Different stylings for buttons. These refer to the CSS classes used to style the button.
+|
+*/
+
+// The element in the sessions array where a user's security level is stored
+define("BUTTON_NORMAL",    "normal_button");
+define("BUTTON_ACTION",    "action_button");
+define("BUTTON_CRITICAL",  "critical_button");
+
+
+/*
+|--------------------------------------------------------------------------
 | Database Titles
 |--------------------------------------------------------------------------
 |
@@ -61,6 +76,19 @@ define("USERS_FIRST_NAME",      "first_name");
 define("USERS_LAST_NAME",       "last_name");
 define("USERS_SECURITY_LEVEL", "security_level");
 
+// Cosntants for Groups table
+define("GROUPS_TABLE",           "groups");
+define("GROUPS_GROUP_ID",        "group_id");
+define("GROUPS_NAME",            "name");
+define("GROUPS_TAX_ID",          "tax_id");
+define("GROUPS_ADVISOR",         "advisor");
+define("GROUPS_TYPE",            "type");
+// Sub-table for group types
+define("GROUPS_TYPES_TABLE",    "groups_types");
+define("GROUPS_TYPE_ID",         "type_id");
+define("GROUP_INACTIVE",         "0");
+
+
 /*
 |--------------------------------------------------------------------------
 | Message Types
@@ -74,21 +102,6 @@ define("USERS_SECURITY_LEVEL", "security_level");
 define("MESSAGE_NORMAL",    "message_normal");
 define("MESSAGE_SUCCESS",   "message_success");
 define("MESSAGE_ALERT",     "message_alert");
-
-/*
-|--------------------------------------------------------------------------
-| Button Types
-|--------------------------------------------------------------------------
-|
-| Different stylings for buttons. These refer to the CSS classes used to style the button.
-|
-*/
-
-// The element in the sessions array where a user's security level is stored
-define("BUTTON_NORMAL",    "normal_button");
-define("BUTTON_ACTION",    "action_button");
-define("BUTTON_CRITICAL",  "critical_button");
-
 
 /*
 |--------------------------------------------------------------------------

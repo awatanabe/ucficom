@@ -32,9 +32,13 @@ class groups extends CI_Model{
     
     public function get_active(){
         
-        // Do not display the user's password
-        $results = $this->db->get_where(USERS_TABLE, 
-                array(USERS_SECURITY_LEVEL." !=" => INACTIVE));
+        // Query prep
+        $this->db->join(GROUPS_TYPES_TABLE,
+                GROUPS_TABLE.".".GROUPS_TYPE."=".
+                GROUPS_TYPES_TABLE.".".GROUPS_TYPE_ID);
+        
+        $results = $this->db->get_where(GROUPS_TABLE, 
+                array(GROUPS_TYPE." !=" => GROUP_INACTIVE));
         
         return $results;
     }     

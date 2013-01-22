@@ -81,13 +81,13 @@ class admin extends UC_Controller {
                 $hashed_password = $this->authentication->hash_password(
                         $this->input->post("password"));
                 
-                // Put the user in the database
-                $this->users->new_user(
-                        $this->input->post("email"),
-                        $hashed_password,
-                        $this->input->post("first_name"),
-                        $this->input->post("last_name"),
-                        $security_level);
+                $this->users->new_entry(array(
+                    USERS_EMAIL => $this->input->post("email"),
+                    USERS_FIRST_NAME => $this->input->post("first_name"),
+                    USERS_LAST_NAME => $this->input->post("last_name"),
+                    USERS_PASSWORD => $hashed_password,
+                    USERS_SECURITY_LEVEL => $security_level
+                ));
                 
                 // Message for successful addition
                 $add_message = "User ".

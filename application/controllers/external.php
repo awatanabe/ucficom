@@ -17,9 +17,7 @@ class External extends UC_Controller {
     
     public function __construct() {
         parent::__construct(EXTERNAL);
-        // Load user model - controller for managing user table
-        $this->load->model("users");    
-        
+                  
         // Load helpers
         $this->load->helper("validation");        
         

@@ -21,25 +21,44 @@ STYLE GUIDE FOR FICOM WEB PORTAL
  * Databases
  */
 
-// Table types
+// Definitions
 - Primary Tables: Those tables that have their own models (i.e. users, groups, etc.) with 
 identifying information.
 - Secondary Tables: Also Dependent Tables. Tables that contain irregular information that are
 accessed in relation to an element in the primary table.
 - Reference Tables: Tables that are lookups for values in primary or secondary tables.
+- Record: One conceptual idea. Contains an entry in the primary table, elements in the dependent
+table, and references to the record table.
 
 // Primary Tables
 - Contain "metadata" (most basically the name) on a type of primary element in the table. Primary
 tables should be short - they should contain enough information to identify an element (i.e. the 
 type of information in a summary table of users, grants, groups, etc).
+- Each element in a primary table constitutes a record. A record may refer to 
+- Primary tables must have one primary key column. This column should be an ID number.
+- Primary table must have a "status" column. This column is numeric and should be given the value
+zero (0) when the entry is inactive. This column is generically named "status" but can be changed -
+'users' uses 'security_level'; 'groups' uses 'type_code'. This column controls the status of the
+entire record.
+- Entries in primary tables are never deleted
+- Primary tables should contain a name column that stores the "human identifier" of the entry.
+- Columns referencing reference tables should have a foreign key with RESTRICT on delete and 
+CASCADE on update.
+- Columns referencing another primary table should have a foreign key with RESTRICT on delete and
+CASACDE on update - this is to force a transition before deleting the parent. These columns should
+be nullable.
 
 // Dependent Tables
 - These contain irregular information related to individual elements in the primary table. For
 example, "groups_notes" contains note information for groups. Some groups may have no notes; others
 may have several. Thus it is "irregular" because it does not necessarily apply to each group.
+- Dependent tables should have a foreign key with CASCADE for both delete and update.
 
 // Reference Tables
-- Allow for some degree of abstractions for labels and types.
+- Allow for some degree of abstractions for labels and types. For columns where there are distinct
+types, labels, etc, a reference table replaces the explicit value with a number that is looked up 
+when that entry is requested.
+- Reference tables should start with a primary key column suffixed by _code.
 
 // Table naming
 - All table names should be plural
@@ -47,10 +66,41 @@ may have several. Thus it is "irregular" because it does not necessarily apply t
 table name
 
 // Column naming
-- Dependent table columns should have the singular of the table name prefixing the column name
+- Columns linking to reference tables should have the suffice _code after them. This column should
+have the same name as the primary key column of the reference table. 
+- All records should have an ID column. Elements in secondary tables should have ID columns as well.
+- Reference tables should have a _code column as their primary key.
+
 
 // Users.security_level, groups.type or similar field
 - The value "zero" is reserved for deactivated/canceled entries and should not otherwise be used
+
+/** Dependencies - Table of Foreign Keys **/
+- This table shows the foreign key relationships in the database.
+
+    CHILD                       NULL    PARENT                              FK DELETE   FK UPDATE
+    grantspacks.session_id      NULL    sessions.sessions_id                RESTRICT    CASCADE     
+    grantspacks.status_code             grantspacks_statuses.status_code    RESTRICT    CASCADE   
+    grantspacks.type_code               grantspacks_types.type_code         RESTRICT    CASCADE     
+    grants.grantspack_id        NULL    grantspacks.granspack_id            SET NULL    CASCADE    
+    grants.contact_id           NULL    contacts.contact_id                 SET NULL    CASCADE     
+    grants.group_id             NULL    groups.group_id                     RESTRICT    CASCADE            
+    grants.status_code                  grants_statuses.status_code         RESTRICT    CASCADE     
+    grants.type_code                    grants_types.type_code              RESTRICT    CASCADE
+    grants_items.grant_id               grants.grant_id                     CASCADE     CASCADE
+    grants_items.type_code              grants_items_types.type_code        RESTRICT    CASCADE
+    groups.type_code                    groups_types.type_code              RESTRICT    CASCADE
+    groups_altnames.group_id            groups.group_id                     CASCADE     CASCADE
+    groups_notes.group_id               groups.group_id                     CASCADE     CASCADE
+    groups_notes.type_code              groups_notes_types.code             RESTRICT    CASCADE
+    groups_positions.group_id           groups.group_id                     CASCADE     CASCADE
+    groups_positions.contact_id         contacts.contact_id                 CASCADE     CASCADE
+    groups_positions.type_code          groups_positions_types.type_code    RESTRICT    CASCADE
+    contacts_altemails.contact_id       contact.contact_id                  CASCADE     CASCADE            
+    
+- Columns that are marked null should be set to null if the parent is deleted; however, this should
+    be done manually, hence the RESTRICT to force the user to update those.
+
 
 /** Table Descriptions **/
 
@@ -58,6 +108,20 @@ table name
 // Unique columns
 - user_id
 - email
+
+/*
+ * Models
+ */
+
+// Constructor and Initializer methods
+- All models should extend UC_MODEL, which provides some common functionality based on the database
+design.
+- Because CodeIgniter does not allow UC_MODEL to be abstract or accept parameters in the 
+constructor, there are some variation from standard OO practice to initialize the model
+| - The "initialize()" method must be called in the __constructor() method to establish the table
+name and other basic information
+| - If the primary table uses reference or secondary tables, the join clauses from queries should
+be implemented in the prep_reference/prep_secondary methods.
 
 
 

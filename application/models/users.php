@@ -12,13 +12,27 @@
  *
  * @author aaronwatanabe
  */
-class users extends CI_Model {
+class Users extends UC_Model {
    
-    public function __construct()
-	{
-		$this->load->database();
-	}    
+    public function __construct(){
+        
+        parent::__construct();
+        
+        // Must call initialize. Otherwise, this will break. Badly
+        $this->initialize(USERS_TABLE, USERS_USER_ID);
+    }    
     
+    /* Implement abstract functions */
+    
+    protected function prep_reference() {
+        return;
+    }
+    
+    protected function prep_secondary() {
+        return;
+    }
+        
+        
     /**
      * Creates a new user for the site in the database
      * 
@@ -29,7 +43,7 @@ class users extends CI_Model {
      * @param int $security_level
      * @return boolean
      */
-    
+    /*
     public function new_user(
             $email,
             $password,
@@ -50,7 +64,7 @@ class users extends CI_Model {
 
         return TRUE;
     }
-    
+    */
     /**
      * Updates the user given by $user_id. Will replace each column specified in $fields with the new value
      * 

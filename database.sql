@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2013 at 02:54 AM
+-- Generation Time: Jan 27, 2013 at 03:10 AM
 -- Server version: 5.5.25
 -- PHP Version: 5.4.4
 
@@ -45,7 +45,7 @@ CREATE TABLE `contacts` (
   `phone` varchar(20) NOT NULL,
   PRIMARY KEY (`contact_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contact data for members of groups.' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE `contacts_altemails` (
   `altemail` varchar(255) NOT NULL,
   PRIMARY KEY (`altemail_id`),
   KEY `contact_id` (`contact_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Alternate email addresses for contacts' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -91,7 +91,7 @@ CREATE TABLE `grants` (
   KEY `contact_id` (`contact_id`),
   KEY `status_code` (`status_code`),
   KEY `type_code` (`type_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Metadata for grants' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,7 @@ CREATE TABLE `grantspacks` (
   KEY `session_id` (`session_id`),
   KEY `type_code` (`type_code`),
   KEY `status_code` (`status_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Metadata and summary info for grants packs' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ CREATE TABLE `grantspacks_statuses` (
   `status_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`status_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Reference table for the status of a grants pack' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -135,7 +135,7 @@ CREATE TABLE `grantspacks_types` (
   `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`type_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Reference table for types of grants packs.' AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -149,13 +149,27 @@ CREATE TABLE `grants_items` (
   `description` varchar(1000) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
   `cg_category` varchar(255) NOT NULL,
-  `type_code` tinyint(3) unsigned NOT NULL,
+  `category_code` tinyint(3) unsigned NOT NULL,
   `note` varchar(255) NOT NULL,
+  `type_code` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`item_id`),
   KEY `grant_id` (`grant_id`),
-  KEY `type_code` (`type_code`),
-  KEY `grant_id_2` (`grant_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `type_code` (`category_code`),
+  KEY `grant_id_2` (`grant_id`),
+  KEY `type_code_2` (`type_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Line item expenses and revenues' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grants_items_categories`
+--
+
+CREATE TABLE `grants_items_categories` (
+  `category_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`category_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Categories for line item expenditures' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -167,7 +181,7 @@ CREATE TABLE `grants_items_types` (
   `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`type_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Types (revenue/expenditure/inactive) for grant items' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -191,7 +205,7 @@ CREATE TABLE `grants_types` (
   `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`type_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Types for grants (regular, wintersession, etc.)' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -209,7 +223,7 @@ CREATE TABLE `groups` (
   PRIMARY KEY (`group_id`),
   UNIQUE KEY `name` (`name`),
   KEY `type_code` (`type_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Metadata for groups applying for grants' AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -225,7 +239,7 @@ CREATE TABLE `groups_altnames` (
   KEY `group_id` (`group_id`),
   KEY `group_id_2` (`group_id`),
   KEY `group_id_3` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Alternate names for groups' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -241,7 +255,7 @@ CREATE TABLE `groups_notes` (
   `type_code` tinyint(3) unsigned NOT NULL,
   KEY `type_code` (`type_code`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Text notes on groups.';
 
 -- --------------------------------------------------------
 
@@ -253,7 +267,7 @@ CREATE TABLE `groups_notes_types` (
   `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`type_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Types (regard/alert) for groups' AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -272,7 +286,7 @@ CREATE TABLE `groups_positions` (
   KEY `contact_id` (`contact_id`,`group_id`),
   KEY `group_id` (`group_id`),
   KEY `type_code` (`type_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Pivot table connecting contacts to groups' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -284,7 +298,7 @@ CREATE TABLE `groups_positions_types` (
   `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`type_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Type of position within a group' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -296,7 +310,7 @@ CREATE TABLE `groups_types` (
   `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`type_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Type of group' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -307,10 +321,24 @@ CREATE TABLE `groups_types` (
 CREATE TABLE `sessions` (
   `sessions_id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `code` varchar(255) NOT NULL,
+  `abbreviation` varchar(255) NOT NULL,
   `total_requested` decimal(10,2) NOT NULL,
   `total_funded` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`sessions_id`)
+  `type_code` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`sessions_id`),
+  KEY `type_code` (`type_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions_types`
+--
+
+CREATE TABLE `sessions_types` (
+  `type_code` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL COMMENT 'Text name of type to display',
+  PRIMARY KEY (`type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -354,16 +382,17 @@ ALTER TABLE `grants`
 -- Constraints for table `grantspacks`
 --
 ALTER TABLE `grantspacks`
-  ADD CONSTRAINT `grantspacks_ibfk_5` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`sessions_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `grantspacks_ibfk_2` FOREIGN KEY (`type_code`) REFERENCES `grantspacks_types` (`type_code`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `grantspacks_ibfk_3` FOREIGN KEY (`status_code`) REFERENCES `grants_statuses` (`status_code`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `grantspacks_ibfk_3` FOREIGN KEY (`status_code`) REFERENCES `grants_statuses` (`status_code`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `grantspacks_ibfk_5` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`sessions_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `grants_items`
 --
 ALTER TABLE `grants_items`
+  ADD CONSTRAINT `grants_items_ibfk_5` FOREIGN KEY (`type_code`) REFERENCES `grants_items_types` (`type_code`) ON UPDATE CASCADE,
   ADD CONSTRAINT `grants_items_ibfk_3` FOREIGN KEY (`grant_id`) REFERENCES `grants` (`grant_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `grants_items_ibfk_2` FOREIGN KEY (`type_code`) REFERENCES `grants_items_types` (`type_code`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `grants_items_ibfk_4` FOREIGN KEY (`category_code`) REFERENCES `grants_items_categories` (`category_code`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `groups`
@@ -388,6 +417,12 @@ ALTER TABLE `groups_notes`
 -- Constraints for table `groups_positions`
 --
 ALTER TABLE `groups_positions`
-  ADD CONSTRAINT `groups_positions_ibfk_3` FOREIGN KEY (`type_code`) REFERENCES `groups_positions_types` (`type_code`) ON UPDATE CASCADE,
   ADD CONSTRAINT `groups_positions_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `groups_positions_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `groups_positions_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `groups_positions_ibfk_3` FOREIGN KEY (`type_code`) REFERENCES `groups_positions_types` (`type_code`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`type_code`) REFERENCES `sessions_types` (`type_code`) ON UPDATE CASCADE;

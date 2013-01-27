@@ -19,7 +19,7 @@ class Users extends UC_Model {
         parent::__construct();
         
         // Must call initialize. Otherwise, this will break. Badly
-        $this->initialize(USERS_TABLE, USERS_USER_ID);
+        $this->initialize(USERS_TABLE, USERS_USER_ID, USERS_SECURITY_LEVEL);
     }    
     
     /* Implement abstract functions */
@@ -102,7 +102,7 @@ class Users extends UC_Model {
      * 
      * @return Query Object
      */
-    
+    /*
     public function get_active(){
         
         // Do not display the user's password
@@ -110,7 +110,7 @@ class Users extends UC_Model {
                 array(USERS_SECURITY_LEVEL." !=" => INACTIVE));
         
         return $results;
-    }   
+    }   */
 }
 
 ?>

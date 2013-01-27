@@ -50,6 +50,7 @@ class UC_Model extends CI_Model{
     protected function initialize($primary_table, $primary_key, $status_column = 'type_code'){
         $this->primary_table = $primary_table;
         $this->primary_key_column = $primary_key;
+        $this->status_column = $status_column;
     }
     
     /**
@@ -139,6 +140,26 @@ class UC_Model extends CI_Model{
         }        
         
     }
+    
+    /**
+     * Gets active entries from the primary table.
+     */
+    
+        /**
+     * Gets active groups from the database
+     * 
+     * @return Query Object
+     */
+    
+    public function get_active(){
+ 
+        // Call functions to get joins on dependent and reference tables
+        $this->prep_reference();
+        $this->prep_secondary();        
+        
+        return $this->db->get_where($this->primary_table, 
+                array($this->status_column." !=" => INACTIVE));        
+    }     
     
     
     /**

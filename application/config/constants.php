@@ -82,11 +82,14 @@ define("GROUPS_GROUP_ID",        "group_id");
 define("GROUPS_NAME",            "name");
 define("GROUPS_TAX_ID",          "tax_id");
 define("GROUPS_ADVISOR",         "advisor");
-define("GROUPS_TYPE",            "type");
+define("GROUPS_TYPE_CODE",       "type_code");
 // Sub-table for group types
 define("GROUPS_TYPES_TABLE",    "groups_types");
-define("GROUPS_TYPE_ID",         "type_id");
+define("GROUPS_TYPE",      "type");
 define("GROUP_INACTIVE",         "0");
+// Secondary table for alternate group names
+define("GROUPS_ALTNAMES_TABLE", "groups_altnames");
+define("GROUPS_ALTNAME",        "altname");
 
 
 /*

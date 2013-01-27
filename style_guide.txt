@@ -22,13 +22,26 @@ STYLE GUIDE FOR FICOM WEB PORTAL
  */
 
 // Definitions
-- Primary Tables: Those tables that have their own models (i.e. users, groups, etc.) with 
-identifying information.
-- Secondary Tables: Also Dependent Tables. Tables that contain irregular information that are
-accessed in relation to an element in the primary table.
-- Reference Tables: Tables that are lookups for values in primary or secondary tables.
-- Record: One conceptual idea. Contains an entry in the primary table, elements in the dependent
-table, and references to the record table.
+    For this database, information is conceptually stored as a "record." A record is a container
+that at a minimum contains an "entry" that has metadata about the record. The record may also 
+have "elements" that contain information related to the metadata. Both entries and elements may have
+connections to certain types. In some cases, such as tables of system users, the metadata in the
+entry is the entirety of the record; in other cases such as grant records, the elements are the main 
+data. In other cases, elements are extra metadata that does not fit in the regularized entry. 
+Records are organized by type into "models" - i.e. there is a model for users, for grants, etc.
+    This very abstract discussion of information storage is important to understanding the design
+of the database and the models used to access their data. The database has three types of tables:
+- Primary Tables: Contain entries with metadata for records of a model. The metadata contain
+information like names, email addresses, and other information describing the record. Each model 
+has only one primary table.
+- Secondary Tables: Contain elements. Each secondary table contains a particular type of 
+information, such as notes related to a record. Elements in secondary tables are accessed only in
+reference to their primary table. A model may have multiple secondary tables; however, each record
+in the model may not access information in each secondary table. For this reason, these tables are
+also called dependent tables.
+- Reference Tables: These provide information for categorizing entries and elements. Where as
+entries to elements have a one to many relationship, entries to references have a many to one 
+relationship.
 
 // Primary Tables
 - Contain "metadata" (most basically the name) on a type of primary element in the table. Primary

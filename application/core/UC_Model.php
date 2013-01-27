@@ -153,12 +153,11 @@ class UC_Model extends CI_Model{
     
     public function get_active(){
  
-        // Call functions to get joins on dependent and reference tables
-        $this->prep_reference();
-        $this->prep_secondary();        
+        // Call functions to get joins on reference tables. Secondary tables are not displayed here
+        $this->prep_reference();      
         
         return $this->db->get_where($this->primary_table, 
-                array($this->status_column." !=" => INACTIVE));        
+                array($this->primary_table.".".$this->status_column." !=" => INACTIVE));        
     }     
     
     

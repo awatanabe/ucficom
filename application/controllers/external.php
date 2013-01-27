@@ -57,7 +57,7 @@ class External extends UC_Controller {
             // Validate form
             if($this->form_validation->run() == TRUE){
                 // Get the data associated with the entered email address
-                $user_data = $this->users->get_unique(USERS_EMAIL, 
+                $user_data = $this->users->get_record(USERS_EMAIL, 
                         $this->input->post(USERS_EMAIL));
 
                 // If good credentials, log in and redirect to internal home

@@ -111,31 +111,6 @@ class Users extends UC_Model {
         
         return $results;
     }   
-    
-    /**
-     * Selects a single user where column equals value. Will return false if 
-     * the value is not unique
-     * 
-     * @param string    $column The column with the unique value to access
-     * @param string    $value  The unique value
-     * @return array
-     */
-    
-    public function get_unique($column, $value){
-        
-        $results = $this->db->get_where(USERS_TABLE,
-                array($column => $value));
-        
-        // Check results, returning false if there is no unique match
-        if($this->db->count_all_results() != 1){
-            return FALSE;
-        }
-        else{
-            return $results->row_array();
-        }
-            
-    }
-    
 }
 
 ?>

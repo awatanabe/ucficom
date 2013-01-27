@@ -33,13 +33,23 @@ class UC_Model extends CI_Model{
         // Set the name of the primary table
         $this->primary_table = '';
         $this->primary_key = '';
-        $this->status_column = "status";
+        $this->status_column = "type_code";
         $this->inact_value = 0;
     }    
     
-    protected function initialize($primary_table, $primary_key, $status_column = 'status'){
+    /**
+     * Initializes the model with information about the tables to access. Should be called in the 
+     * constructor.
+     * 
+     * @param string $primary_table Name of the primary table for the model
+     * @param string $primary_key Name of the primary key column of the primary table
+     * @param string $status_column Name of the column that records an element's status where it
+     * may be marked inactive.
+     */
+    
+    protected function initialize($primary_table, $primary_key, $status_column = 'type_code'){
         $this->primary_table = $primary_table;
-        $this->primary_key_column = $primary_key_column;
+        $this->primary_key_column = $primary_key;
     }
     
     /**

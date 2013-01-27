@@ -305,7 +305,7 @@ class admin extends UC_Controller {
      */
     public function _unique_email($email, $user_id = NULL){
         
-        $results = $this->users->get_unique(USERS_EMAIL, $email);
+        $results = $this->users->get_record(USERS_EMAIL, $email);
         
         if($results == FALSE){
             return TRUE;
@@ -368,7 +368,7 @@ class admin extends UC_Controller {
         }
         
         // Load the user's information from the database
-        $user_data = $this->users->get_unique(USERS_USER_ID, $user_id);
+        $user_data = $this->users->get_record(USERS_USER_ID, $user_id);
         
         if($user_data == FALSE ||
                 ($active_only == TRUE &&

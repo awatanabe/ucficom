@@ -33,11 +33,9 @@ class groups extends UC_Model{
      */
     
     public function prep_reference(){
-        
-        // Join on the group type reference table
-        $this->db->join(GROUPS_TYPES_TABLE,
-                GROUPS_TABLE.".".GROUPS_TYPE_CODE."=".
-                GROUPS_TYPES_TABLE.".".GROUPS_TYPE_CODE);    
+        // Connects to type table
+        $this->reference_join(GROUPS_TYPES_TABLE, GROUPS_TYPE_CODE);
+        return;
     }
     
     public function prep_secondary() {

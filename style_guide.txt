@@ -17,9 +17,14 @@ STYLE GUIDE FOR FICOM WEB PORTAL
 - MESSAGE_SUCCESS should be used when information in the database is updated.
 - MESSAGE_ALERT should be used when there is an error.
 
-/*
+/***************************************************************************************************
  * Databases
- */
+ **************************************************************************************************/
+
+/** Introduction **/
+- The databases are used for storing all information in the system.
+- Only the lead developer, or someone acting with the lead developer's permission, should access or
+change the database or database layout directly.
 
 // Definitions
     For this database, information is conceptually stored as a "record." A record is a container
@@ -44,49 +49,66 @@ entries to elements have a one to many relationship, entries to references have 
 relationship.
 
 // Primary Tables
-- Contain "metadata" (most basically the name) on a type of primary element in the table. Primary
-tables should be short - they should contain enough information to identify an element (i.e. the 
-type of information in a summary table of users, grants, groups, etc).
-- Each element in a primary table constitutes a record. A record may refer to 
-- Primary tables must have one primary key column. This column should be an ID number.
-- Primary table must have a "status" column. This column is numeric and should be given the value
-zero (0) when the entry is inactive. This column is generically named "status" but can be changed -
-'users' uses 'security_level'; 'groups' uses 'type_code'. This column controls the status of the
-entire record.
-- Entries in primary tables are never deleted
-- Primary tables should contain a name column that stores the "human identifier" of the entry.
-- Columns referencing reference tables should have a foreign key with RESTRICT on delete and 
-CASCADE on update.
-- Columns referencing another primary table should have a foreign key with RESTRICT on delete and
-CASACDE on update - this is to force a transition before deleting the parent. These columns should
-be nullable.
+- Store metadata for different types of records. This is information to identify the record - name,
+email, etc.
+- A row in a primary table is an entry; There is a one to one relationship between entries and
+records.
+- Primary tables have several required features (this is for abstraction and model re-usability):
+|- Name is a one word plural (i.e. users, groups, etc.)
+|- Primary key column. Must be numeric. Has name "{singular_table_name}_id"
+|- A status column. Must be numeric. The value zero (0) is defined to mean INACTIVE. By default,
+    this column is "type_code."
+|- If the record type deals with objects, there must be a "name" column. This contains a human 
+    readable name. Records dealing with people can have "first_name" and "last_name."
+- Entries in primary tables are never deleted. They can be deactivated by setting the status column
+to zero.
+- Linking columns to entries in other primary tables should have the name of the primary key column
+in the other table and have foreign keys set to RESTRICT on DELETE and CASCADE on update. These
+columns should be nullable.
+- Linking columns to reference tables should be titled the same as the primary key of the reference
+table and have a foreign key on that column set to RESTRICT on DELETE and CASCADE on update.
 
-// Dependent Tables
-- These contain irregular information related to individual elements in the primary table. For
-example, "groups_notes" contains note information for groups. Some groups may have no notes; others
-may have several. Thus it is "irregular" because it does not necessarily apply to each group.
-- Dependent tables should have a foreign key with CASCADE for both delete and update.
+// Secondary Tables
+- These store additional information associated with each record. This information is often 
+irregular; not every record will have elements in secondary tables.
+- Secondary tables have several required features:
+|- Primary key column. Must be numeric and is suffixed by "_id."
+|- Foreign key column for each primary table that this table is secondary to. This should be the
+    name of the primary key column of that primary table.
+- Foreign key columns should have foreign keys set to CASCADE for DELETE and UPDATE on the foreign
+column.
+- Name should be prefixed by the name of the table they are dependent on. Table names should be 
+plural.
 
 // Reference Tables
-- Allow for some degree of abstractions for labels and types. For columns where there are distinct
-types, labels, etc, a reference table replaces the explicit value with a number that is looked up 
-when that entry is requested.
-- Reference tables should start with a primary key column suffixed by _code.
+- Should have a numeric primary key columns suffixed by "_code."
+- In general, these tables have two columns: the primary key column and a human value column. The
+human value column should have the singular name of the table (i.e. "type" for table "types).
+- For reference tables defining the status column of a primary table, there should be an entry with
+the primary key zero (0) and the human value "Inactive."
+- Reference table names should be prefixed by the name of the table that references them. Table
+names should be plural.
 
-// Table naming
-- All table names should be plural
-- Dependent tables (i.e. table dependent on a primary) should have names prefixed by the primary
-table name
-
-// Column naming
-- Columns linking to reference tables should have the suffice _code after them. This column should
-have the same name as the primary key column of the reference table. 
-- All records should have an ID column. Elements in secondary tables should have ID columns as well.
-- Reference tables should have a _code column as their primary key.
-
-
-// Users.security_level, groups.type or similar field
-- The value "zero" is reserved for deactivated/canceled entries and should not otherwise be used
+/** Database Structure **/
+-P sessions {Aggregate grant informaiton for each UC session}
+|-R sessions_types {Type codes for sessions - necessary for inactivity}
+-P grantspacks {Aggregate information for each meeting's grants pack}
+|-R grantspacks_statuses {Status code for grantspacks}
+|-R grantspacks_types {Type codes for grantspacks - i.e. regular, wintersession, etc.}
+-P grants {Aggregate information for each grant applicaiton}
+|-R grants_statuses {Status codes for grants marking what point they are at in the process}
+|-R grants_types {Type codes for grants - i.e. upfront, retroactive, etc.}
+|-S grants_items {Line item expenses and revenues for grants}
+ |-R grants_items_types {Type codes for line items - i.e. expense vs. revenue}
+ |-R grants_items_categories {FiCom assigned categories for line items}
+-P groups {Contact and descriptive informaiton for groups}
+|-R groups_types {Type codes for groups - i.e recognized, club sport, etc.}
+|-S groups_altnames {Potential alternate names for groups to keep track of}
+|-S groups_notes {Notes on groups to have}
+ |-R groups_notes_types {Type codes for group notes}
+|-S groups_positions {Pivot table linking contacts to groups and the position the contact holds}
+ |-R groups_positions_types {Type codes for positions - i.e. primary contact}
+-P users {Data for system users}
 
 /** Dependencies - Table of Foreign Keys **/
 - This table shows the foreign key relationships in the database.
@@ -114,17 +136,36 @@ have the same name as the primary key column of the reference table.
 - Columns that are marked null should be set to null if the parent is deleted; however, this should
     be done manually, hence the RESTRICT to force the user to update those.
 
-
-/** Table Descriptions **/
-
-/* Users */
-// Unique columns
-- user_id
-- email
-
-/*
+/***************************************************************************************************
  * Models
- */
+ **************************************************************************************************/
+
+/ ** Basic Information **/
+- Models are the code abstraction for accessing database.
+- DATABASES SHOULD ONLY BE ACCESSED THROUGH MODELS. Other access methods are verboten!
+- All models should extend UC_Model rather CI_Model. The UC_Model contains a number of basic 
+methods that work off the structure of the tables.
+- Each primary table should have one model. The model should have the same name as the primary
+table.
+- Only the primary table's given model should access that primary table and associated reference
+tables.
+- Secondary tables should be only accessed by tables which link to that model's primary table
+through a foreign key (in practice, this only applies to groups_positions).
+
+/** UC MODEL **/
+- This model contains common methods to perform on the database. 
+- Only the lead developer or someone with explict permission should directly alter the UC_Model file
+
+// Constructor
+- All children of the UC_Model must have a constructor function. 
+- The constructor must call the parent constructor as its first action to give the object access
+to UC_Model (and thus CI_Model) functionality.
+- The constructor must also call the initialize method ($this->initialize()). This is because the 
+CodeIgniter system will not accept either abstract methods/properties or parameters for the 
+__construct() method - normally, these would be this used to initialize the model. 
+
+// Prep References
+- If the primary table refers to references tables, these tables should be
 
 // Constructor and Initializer methods
 - All models should extend UC_MODEL, which provides some common functionality based on the database
@@ -136,28 +177,36 @@ name and other basic information
 | - If the primary table uses reference or secondary tables, the join clauses from queries should
 be implemented in the prep_reference/prep_secondary methods.
 
+/***************************************************************************************************
+ * Naming Conventions
+ **************************************************************************************************/
 
+/** Data Layer - Models and Databases **/
+- See the respective Database and Model sections for naming conventions
 
-/** Groups **/
-
-
-/*
- * Naming
- */
-
-// Libraries
+/** Libraries **/
 - Library names should be singular (i.e. "service" not "services")
 
-/*
- * Initializing Functions
- */
-- Constructor classes should load helpers, then libraries, then models. In alphabetical order
+/** HTML Page Elements **/
+
+// Forms
+- All submit buttons should have the name "submit"
 
 
-/*
- * Element Styling
- */
+/***************************************************************************************************
+ * Styling Conventions
+ **************************************************************************************************/
 
+/** Basics **/
+- Styling refers to element appearance. Element layout and positioning is consider layout.
+
+/** CSS Files **/
+- All styling and layout should be done using CSS files.
+- All styling data should be in the styles.css file.  
+
+/***************************************************************************************************
+ * Layout Conventions
+ **************************************************************************************************/
 
 /** Page Layout **/
 // Width
@@ -176,6 +225,3 @@ H3 - Define the subsection of a given section.
 /** General **/
 - All direct output from users should be escaped using
 - Output through set_value() and similar function for forms is automatically escaped.
-
-/* Forms */
-- All submit buttons should have the name "submit"

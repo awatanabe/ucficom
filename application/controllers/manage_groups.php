@@ -36,13 +36,26 @@ class manage_groups extends UC_Controller{
      */
     public function index(){
         
-        
-        
         // Build table with all of the active users
         
         $this->display->display_view("content/manage_groups/index", "Manage Groups", 
-                array("groups" => $this->groups->get_active()));
+                array("table_data" => $this->groups->get_active()));
     }    
+    
+    /**
+     * Display all information about a group
+     * 
+     * @param type $group_id
+     */
+    
+    public function view($group_id){
+        
+        // Get information for the group
+        $template_data["group_data"] = $this->groups->get_record(GROUPS_GROUP_ID, $group_id);
+        
+        $this->display->display_view("content/manage_groups/view", 
+                $template_data["group_data"][GROUPS_NAME], $template_data);
+    }
 }
 
 ?>

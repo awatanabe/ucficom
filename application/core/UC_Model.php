@@ -52,6 +52,33 @@ class UC_Model extends CI_Model{
         $this->primary_key_column = $primary_key;
         $this->status_column = $status_column;
     }
+        
+    /**
+     * Creates a join between the primary table and the given reference table
+     * 
+     * @param string $reference_table Name of the reference table
+     * @param string $reference_column Name of the column used in the reference
+     */
+    protected function reference_join($reference_table, $reference_column){
+         $this->db->join($reference_table,
+                $this->primary_table.".".$reference_column."=".
+                $reference_table.".".$reference_column);         
+    }    
+    
+    /**
+     * Creates a join between the primary table and the given secondary table. Leverages naming
+     * conventions of database.
+     * 
+     * @param string $secondary_table Name of the secondary table
+     */
+    
+    protected function secondary_join($secondary_table){
+        // Produce the join - left outer to return results regardless of match in secondary
+        $this->db->join($secondary_table,
+                $this->primary_table.".".$this->primary_key_column."=".
+                $secondary_table.".".$this->primary_key_column,
+                "left outer");            
+    }
     
     /**
      * This abstract function is for performing other joins on reference tables
@@ -129,7 +156,7 @@ class UC_Model extends CI_Model{
         $this->prep_secondary();
         
         $results = $this->db->get_where($this->primary_table, 
-                array($lookup_column => $unique_value));
+                array($this->primary_table.".".$lookup_column => $unique_value));
         
         // Check results, returning false if there is no unique match
         if($this->db->count_all_results() != 1){

@@ -36,6 +36,9 @@ class External extends UC_Controller {
         
         $this->load->library("table_form");
         
+        // Preserve the login redirect for the next page load in case of bad login
+        $this->service->preserve_redirect();
+        
         // Check if the user is already logged in and return to previous if so
         if($this->authentication->is_logged_in() == TRUE){
             
@@ -74,8 +77,6 @@ class External extends UC_Controller {
                     // Get page to redirect user to
                     $redirect = $this->service->login_redirect();
                     
-                    // Clear the redirect
-                    $this->service->clear_redirect();
                     redirect($redirect);
 
                 }
@@ -90,9 +91,6 @@ class External extends UC_Controller {
                 $this->service->set_message("Error", validation_errors(), MESSAGE_ALERT);
             }            
         }
-        
-        // Clear redirect. If user navigates away, no longer direct to that internal page
-        $this->service->clear_redirect();
         
         // Load login form
         $template_data["login_form"] = $this->display->get_view("content/forms/login");

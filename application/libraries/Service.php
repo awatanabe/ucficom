@@ -43,6 +43,29 @@ class Service {
         #$this->CI->load->library("table_form");    
     }
     
+    /** 
+     * Generic getter and setter for sessions variables
+     * @param string $field The name of the field to access in value
+     * @param string $value The value to store in sessions if set. Otherwise, returns the value of
+     * the field if the value is set, otherwise false.
+     * @param string $return_default Value to return if user attempts to access a field in sessions
+     * that is not set
+     */
+    
+    protected function access_value($field, $return_default, $value = NULL){
+        
+        // Retrieve value if none given
+        if($value == NULL){
+            $result = $this->CI->session->userdata($field);
+            
+            return ($result == TRUE) ? $result : $return_default;
+        }
+        else{
+            // Set the value in sessions
+            $this->CI->session->set_userdata($field, $value);
+        }
+    }
+    
     /***********************************************************************************************
      * User Data
      * 
@@ -51,15 +74,13 @@ class Service {
     
     /**
      * Returns a user's cached ID number. If the user is not logged in, returns FALSE
+     * @param int $user_id If passed, sets the value as the user's ID number
      */
     
-    public function user_id(){
+    public function user_id($user_id = NULL){
         
-        $user_id = $this->CI->session->userdata(self::USER_ID);
-        
-        // Return false if the user_id is not set
-        return ($user_id == TRUE) ? $user_id : FALSE;
-        
+        // Get or set the value
+        return $this->access_value(self::USER_ID, FALSE, $user_id);
     }
     
     /***********************************************************************************************
@@ -75,16 +96,17 @@ class Service {
      * @param string $redirect_url Optional. URL to redirect user to after login
      */
     
-    public function login_redirect($redirect_url = ''){
+    public function login_redirect($redirect_url = NULL){
         
-        if($redirect_url == ''){
-            $result = $this->CI->session->userdata(self::LOGIN_REDIRECT);
+        // Retrieve value if none given
+        if($redirect_url == NULL){
+            $result = $this->CI->session->flashdata(self::LOGIN_REDIRECT);
             
             return ($result == TRUE) ? $result : INTERNAL_HOME;
         }
         else{
-            // Set the redirect URL
-            $this->CI->session->set_userdata(self::LOGIN_REDIRECT, $redirect_url);
+            // Set the value in sessions
+            $this->CI->session->set_flashdata(self::LOGIN_REDIRECT, $redirect_url);
         }
     }
     
@@ -92,9 +114,9 @@ class Service {
      * Clears the login redirect.
      */
     
-    public function clear_redirect(){
+    public function preserve_redirect(){
         
-        $this->CI->session->unset_userdata(self::LOGIN_REDIRECT);
+        $this->CI->session->keep_flashdata(self::LOGIN_REDIRECT);
     
         return TRUE;
     } 

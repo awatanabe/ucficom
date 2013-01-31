@@ -26,6 +26,7 @@ class Authentication {
         
         // Load libraries
         $this->CI->load->library('session');
+        $this->CI->load->library("service");
      
     }
     /**

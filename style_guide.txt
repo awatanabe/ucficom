@@ -178,6 +178,44 @@ name and other basic information
 be implemented in the prep_reference/prep_secondary methods.
 
 /***************************************************************************************************
+ * Libraries
+ **************************************************************************************************/
+
+// General Notes
+- Libraries are collections of functions that are designed to help you write code. They are supposed
+to be portable and allow for code reuse. If you ever find yourself writing code twice, it should
+go into a library.
+- In general, libraries will be the purview of Aaron. If you have an idea for a library or want to
+modify or expand an existing library. Unless you have express permission, please do not change or
+add any libraries.
+
+/** Authentication **/
+// Basic Description
+This library contains functions to keep track of user's login status. All actions to do with logging
+users in should be done through this library, rather than through the service library or directly
+through the sessions variable.
+
+/** Service **/
+// Basic Description
+The Service library is an interface for using sessions data (persistent data related to an 
+individual user). The philosophy is that because SESSIONS data is treated as an array, it is
+potentially fraughtful to allow direct access to the data - if different keys are used to store
+data, it could lead to duplicates and code bugs. The service library provides control over the use
+of sessions.
+- Because of the Service library, you should never need to use the CodeIgniter Sessions library. If
+there is some piece of data you would like stored in sessions, contact Aaron and he can maybe add
+it to the library.
+
+/** Display **/
+// Basic Description
+This library services as the interface between controllers in views. It is meant to take the place
+of the $this->load->view() with some standardized functions designed, among other things, to ensure
+pages are loaded in the correct way. You should never load views directly but rather 
+through the methods provided by this library unless previously discussed with Aaron.
+- In general, all controller methods should end with a call to a display library function.
+
+
+/***************************************************************************************************
  * Naming Conventions
  **************************************************************************************************/
 

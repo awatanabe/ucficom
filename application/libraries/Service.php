@@ -73,6 +73,18 @@ class Service {
      **********************************************************************************************/    
     
     /**
+     * Returns the user's security level cached in SESSIONS. If there is no data cached, returns
+     * FALSE.
+     * 
+     * @param int $security_level Optional. If set, stores $security_level in SESSIONS. Otherwise,
+     * simply returns the cached value.
+     */
+    
+    public function security_level($security_level = NULL){
+        
+        return $this->access_value(SECURITY_LEVEL, FALSE, $security_level);
+    }    
+    /**
      * Returns a user's cached ID number. If the user is not logged in, returns FALSE
      * @param int $user_id If passed, sets the value as the user's ID number
      */
@@ -183,6 +195,29 @@ class Service {
     
         return TRUE;
     }     
+    
+    /***********************************************************************************************
+     * SESSION CLEARING
+     **********************************************************************************************/    
+    
+    /**
+     * Clears all data from SESSIONS except the default system information
+     * 
+     */
+    
+    public function clear_session(){
+        // Hack to unset only the non-critical parts of the session
+        // Source: http://stackoverflow.com/questions/10509022/codeigniter-unset-all-userdata-but-not-destroy-the-session
+        $user_data = $this->CI->session->all_userdata();
+
+        foreach ($user_data as $key => $value) {
+            if ($key != 'session_id' && $key != 'ip_address' && $key != 'user_agent' && $key != 'last_activity') {
+                $this->CI->session->unset_userdata($key);
+            }
+        }
+        
+        return TRUE;    
+    }
     
 }
 

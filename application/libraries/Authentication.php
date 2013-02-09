@@ -25,7 +25,6 @@ class Authentication {
         $this->CI =& get_instance();
         
         // Load libraries
-        $this->CI->load->library('session');
         $this->CI->load->library("service");
      
     }
@@ -42,7 +41,7 @@ class Authentication {
         }
         
         // Get the user's authorization level. If new sessions, returns FALSE
-        $user_authorization = $this->CI->session->userdata(SECURITY_LEVEL);
+        $user_authorization = $this->CI->service->security_level();
 
         // Checks if user already has sessions
         if($user_authorization){
@@ -51,7 +50,7 @@ class Authentication {
         }
         else 
             // Start session and set user's access as public
-            $this->CI->session->set_userdata(SECURITY_LEVEL, EXTERNAL);
+            $this->CI->service->security_level(EXTERNAL);
             return FALSE;   
     }
     
@@ -62,7 +61,7 @@ class Authentication {
      */
     
     public function is_logged_in(){
-        return $this->CI->session->userdata(SECURITY_LEVEL) & AUTHENTICATED;
+        return $this->CI->service->security_level() & AUTHENTICATED;
     }
     
     
@@ -75,23 +74,16 @@ class Authentication {
     public function log_in(array $user_data){
         
         // Set user's security level in sessions
-        $this->CI->session->set_userdata(SECURITY_LEVEL, $user_data[USERS_SECURITY_LEVEL]);
+        $this->CI->service->security_level($user_data[USERS_SECURITY_LEVEL]);
         // Cache user's ID number in sesssions
-        $this->CI->session->set_userdata(USER_ID, $user_data[USERS_USER_ID]);
+        $this->CI->service->user_id($user_data[USERS_USER_ID]);
         return TRUE;
     }
     
     public function log_out(){
         
-        // Hack to unset only the non-critical parts of the session
-        // Source: http://stackoverflow.com/questions/10509022/codeigniter-unset-all-userdata-but-not-destroy-the-session
-        $user_data = $this->CI->session->all_userdata();
-
-        foreach ($user_data as $key => $value) {
-            if ($key != 'session_id' && $key != 'ip_address' && $key != 'user_agent' && $key != 'last_activity') {
-                $this->CI->session->unset_userdata($key);
-            }
-        }
+        // Clear the session
+        $this->CI->service->clear_session();
         
         return TRUE;
     }    

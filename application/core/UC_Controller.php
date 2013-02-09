@@ -47,7 +47,7 @@ class UC_Controller extends CI_Controller {
             if($this->authentication->is_logged_in() == TRUE){
                 
                 // Set apology messages
-                $this->service->set_message("Unauthorized Access", 
+                $this->service->message("Unauthorized Access", 
                         "You are not authorized to access this page. Contact an administrator if you need access to this page.");
                 
                 redirect($this->service->get_last());
@@ -56,7 +56,7 @@ class UC_Controller extends CI_Controller {
             else{
                 
                 // Set message
-                $this->service->set_message("Unauthorized Access",
+                $this->service->message("Unauthorized Access",
                         "You are not currently logged in. Log in to access this page.");
                 // Set page to be redirected to after login
                 $this->service->login_redirect(current_url());

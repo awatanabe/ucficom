@@ -43,7 +43,7 @@ class External extends UC_Controller {
         if($this->authentication->is_logged_in() == TRUE){
             
             // Set message informing no re-log in
-            $this->service->set_message("Already Logged In", 
+            $this->service->message("Already Logged In", 
                     "You are already logged in. If you need to log in as a different user, please log out first.");
             
             // Redirect to previous page
@@ -71,7 +71,7 @@ class External extends UC_Controller {
                     $this->authentication->log_in($user_data);
 
                     // Set message to notify user
-                    $this->service->set_message("Login Successful", "Welcome back ".
+                    $this->service->message("Login Successful", "Welcome back ".
                             $user_data[USERS_FIRST_NAME]);
 
                     // Get page to redirect user to
@@ -82,13 +82,13 @@ class External extends UC_Controller {
                 }
                 else{
                     // Notify of login failure and allow user to try again
-                    $this->service->set_message("Login Failed", "Invalid email address or password",
+                    $this->service->message("Login Failed", "Invalid email address or password",
                             MESSAGE_ALERT);
                 }
             }
             // Notify user of error in form
             else{
-                $this->service->set_message("Error", validation_errors(), MESSAGE_ALERT);
+                $this->service->message("Error", validation_errors(), MESSAGE_ALERT);
             }            
         }
         

@@ -37,7 +37,7 @@ class main extends UC_Controller {
             $this->authentication->log_out();
 
             // Notify user they have logged out
-            $this->service->set_message("Logout Successful", "Goodbye");
+            $this->service->message("Logout Successful", "Goodbye");
             
             // Redirects to external home page
             redirect(EXTERNAL_HOME);            

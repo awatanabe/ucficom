@@ -141,33 +141,6 @@ class Service {
      **********************************************************************************************/    
     
     /**
-     * DEPRCIATED
-     * 
-     * Creates an message to display on the next time display is called. 
-     * Message must contain content in order to be set.
-     * 
-     * Returns TRUE if message set; returns FALSE if no content in message and 
-     * thus message not set.
-     * 
-     * @param string $message Text of the message to display
-     * @param string $message_type Type of message to display. 
-     */
-    
-    public function set_message($title, $message, $message_type = MESSAGE_NORMAL){
-        
-        if($message != ''){
-            
-            $this->CI->session->set_userdata(MESSAGE, array(
-                "content" =>    $message,
-                "type" =>       $message_type,
-                "title" =>      $title));
-
-            return TRUE;            
-        }
-        return FALSE;   
-    }
-    
-    /**
      * Returns notification for the user to be displayed on the page. If there is no message, then 
      * returns the empty string.
      * If arguments are passed, then sets the message.

@@ -35,10 +35,10 @@ class External extends UC_Controller {
         $this->load->model("users");
         
         $this->load->library("table_form");
-        
+
         // Preserve the login redirect for the next page load in case of bad login
         $this->service->preserve_redirect();
-        
+    
         // Check if the user is already logged in and return to previous if so
         if($this->authentication->is_logged_in() == TRUE){
             
@@ -47,7 +47,7 @@ class External extends UC_Controller {
                     "You are already logged in. If you need to log in as a different user, please log out first.");
             
             // Redirect to previous page
-            redirect($this->service->get_last());
+            redirect($this->service->last_page());
         }
         
          // Attempt to log user in if data entered

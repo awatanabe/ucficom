@@ -130,15 +130,10 @@ class Service {
      *  pages on the site, return the external home page. If value is set, then updates last page.
      */
     
-    public function last_page($last = ''){
+    public function last_page($last = NULL){
         
-        // Check if get or set
-        if($last != ""){
-            return $this->CI->session->set_userdata(self::LAST_PAGE, $last);
-        }
-        // Otherwise, retrieve from sessions
-        $prior = $this->CI->session->userdata(LAST_PAGE);
-        return ($prior == TRUE) ? $prior : EXTERNAL_HOME;
+        return $this->access_value(self::LAST_PAGE, EXTERNAL_HOME, $last);
+        
     }
     
     /***********************************************************************************************

@@ -75,6 +75,7 @@ irregular; not every record will have elements in secondary tables.
 |- Primary key column. Must be numeric and is suffixed by "_id."
 |- Foreign key column for each primary table that this table is secondary to. This should be the
     name of the primary key column of that primary table.
+| -A status column linked to a reference table that can be set to zero in the case of deactivation.
 - Foreign key columns should have foreign keys set to CASCADE for DELETE and UPDATE on the foreign
 column.
 - Name should be prefixed by the name of the table they are dependent on. Table names should be 
@@ -126,12 +127,14 @@ names should be plural.
     grants_items.type_code              grants_items_types.type_code        RESTRICT    CASCADE
     groups.type_code                    groups_types.type_code              RESTRICT    CASCADE
     groups_altnames.group_id            groups.group_id                     CASCADE     CASCADE
+    groups_altnames.type_code           groups_altnames_types.type_code     RESTRICT    CASCADE
     groups_notes.group_id               groups.group_id                     CASCADE     CASCADE
     groups_notes.type_code              groups_notes_types.code             RESTRICT    CASCADE
     groups_positions.group_id           groups.group_id                     CASCADE     CASCADE
     groups_positions.contact_id         contacts.contact_id                 CASCADE     CASCADE
     groups_positions.type_code          groups_positions_types.type_code    RESTRICT    CASCADE
-    contacts_altemails.contact_id       contact.contact_id                  CASCADE     CASCADE            
+    contacts_altemails.contact_id       contacts.contact_id                 CASCADE     CASCADE 
+    contacts_altemails.type_code        contacts_altemails_types.type_code  RESTRICT    CASCADE
     
 - Columns that are marked null should be set to null if the parent is deleted; however, this should
     be done manually, hence the RESTRICT to force the user to update those.

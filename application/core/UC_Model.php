@@ -34,7 +34,7 @@ class UC_Model extends CI_Model{
         $this->primary_table = '';
         $this->primary_key = '';
         $this->status_column = "type_code";
-        $this->inact_value = 0;
+        $this->inactive_value = 0;
     }    
     
     /**

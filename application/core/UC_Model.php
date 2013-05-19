@@ -16,11 +16,15 @@
  */
 class UC_Model extends CI_Model{
    
-    // Name of the primary table
+    // Information on primary table
     protected $primary_table;
     protected $primary_key_column;
     protected $status_column;
     protected $inactive_value;
+    
+    // Related primary and secondary tables
+    protected $reference_tables;
+    protected $secondary_tables;
     
     public function __construct(){
         
@@ -35,6 +39,10 @@ class UC_Model extends CI_Model{
         $this->primary_key = '';
         $this->status_column = "type_code";
         $this->inactive_value = 0;
+        
+        // Set table containers empty
+        $this->reference_tables = array();
+        $this->secondary_tables = array();
     }    
     
     /**
@@ -45,12 +53,19 @@ class UC_Model extends CI_Model{
      * @param string $primary_key Name of the primary key column of the primary table
      * @param string $status_column Name of the column that records an element's status where it
      * may be marked inactive.
+     * @param array $reference_tables Array of any reference tables the primary utilizes in the form
+     * {table_name} => {column_name} where {column_name} is the name of the referencing column.
+     * @param array $secondary_tables Array of any secondary tables related to the primary table.
+     * Form of {table_name => array("reference_tables" => array({reference_table} => {column_name}))
      */
     
-    protected function initialize($primary_table, $primary_key, $status_column = 'type_code'){
+    protected function initialize($primary_table, $primary_key, $status_column = 'type_code',
+            $reference_tables = NULL, $secondary_tables = NULL){
         $this->primary_table = $primary_table;
         $this->primary_key_column = $primary_key;
         $this->status_column = $status_column;
+        $this->reference_tables = $reference_tables;
+        $this->secondary_tables = $secondary_tables;
     }
         
     /**
@@ -81,18 +96,44 @@ class UC_Model extends CI_Model{
     }
     
     /**
-     * This abstract function is for performing other joins on reference tables
+     * Performs joins for reference tables the primary table utilizes.
      */
     protected function prep_reference() {
-        return;
+        // Do nothing if there are no secondary tables
+        if(empty($this->reference_tables) == FALSE){
+        
+            // Otherwise, build all the joins
+            foreach($this->reference_tables as $reference_table => $reference_column){
+                $this->reference_join($reference_table, $reference_column);
+            }
+        }
+        
+        return; 
     }
     
     /**
      * Prep dependent tables (i.e. tables that contain additional information for element in the
      * primary tables).
+     * SELECT * 
+SELECT groups.*, groups_altnames.*, groups_altnames_types.type as altname_type 
+FROM groups
+LEFT OUTER JOIN groups_altnames 
+	ON groups.group_id = groups_altnames.group_id 
+INNER JOIN groups_altnames_types
+	ON groups_altnames.type_code = groups_altnames_types.type_code
      */
     protected function prep_secondary() {
-        return;
+        
+        // Do nothing if there are no secondary tables
+        if(empty($this->secondary_tables) == FALSE){
+        
+            // Otherwise, build all the joins on secondary tables
+            foreach($this->secondary_tables as $secondary_table){
+                $this->secondary_join($secondary_table);
+            }
+        }
+        
+        return; 
     }
     
     /**

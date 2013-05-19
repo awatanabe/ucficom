@@ -25,27 +25,12 @@ class groups extends UC_Model{
         parent::__construct();
         
         // Initialize
-        $this->initialize(GROUPS_TABLE, GROUPS_GROUP_ID, GROUPS_TYPE_CODE);
+        $this->initialize(GROUPS_TABLE, GROUPS_GROUP_ID, GROUPS_TYPE_CODE, 
+                array(GROUPS_TYPES_TABLE => GROUPS_TYPE_CODE),
+                array(GROUPS_ALTNAMES_TABLE));
     }
     
-    /**
-     * Override the prep_reference tables to load necessary reference tables for the primary
-     */
-    
-    public function prep_reference(){
-        // Connects to type table
-        $this->reference_join(GROUPS_TYPES_TABLE, GROUPS_TYPE_CODE);
-        return;
-    }
-    
-    public function prep_secondary() {
-        
-        // Get potential alternate names
-        $this->db->join(GROUPS_ALTNAMES_TABLE,
-                GROUPS_TABLE.".".GROUPS_GROUP_ID."=".
-                GROUPS_ALTNAMES_TABLE.".".GROUPS_GROUP_ID,
-                "left outer");    
-    }    
+ 
     
 }
 
